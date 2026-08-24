@@ -24,34 +24,40 @@ Prerequisites: JDK 25, update Intellij to the most recent version.
    Hello! I'm Zeus.
    What can I do for you?
    ____________________________________________________________
-   read book
+   todo borrow book
    ____________________________________________________________
-   added: read book
+   Got it. I've added this task:
+     [T][ ] borrow book
+   Now you have 1 tasks in the list.
    ____________________________________________________________
-   return book
+   deadline return book /by Sunday
    ____________________________________________________________
-   added: return book
+   Got it. I've added this task:
+     [D][ ] return book (by: Sunday)
+   Now you have 2 tasks in the list.
    ____________________________________________________________
-   buy bread
+   event project meeting /from Mon 2pm /to 4pm
    ____________________________________________________________
-   added: buy bread
+   Got it. I've added this task:
+     [E][ ] project meeting (from: Mon 2pm to: 4pm)
+   Now you have 3 tasks in the list.
    ____________________________________________________________
    mark 2
    ____________________________________________________________
    Nice! I've marked this task as done:
-     [X] return book
+     [D][X] return book (by: Sunday)
    ____________________________________________________________
    unmark 2
    ____________________________________________________________
    OK, I've marked this task as not done yet:
-     [ ] return book
+     [D][ ] return book (by: Sunday)
    ____________________________________________________________
    list
    ____________________________________________________________
    Here are the tasks in your list:
-   1.[ ] read book
-   2.[ ] return book
-   3.[ ] buy bread
+   1.[T][ ] borrow book
+   2.[D][ ] return book (by: Sunday)
+   3.[E][ ] project meeting (from: Mon 2pm to: 4pm)
    ____________________________________________________________
    bye
    ____________________________________________________________
