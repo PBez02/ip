@@ -59,6 +59,14 @@ Prerequisites: JDK 25, update Intellij to the most recent version.
    2.[D][ ] return book (by: Sunday)
    3.[E][ ] project meeting (from: Mon 2pm to: 4pm)
    ____________________________________________________________
+   todo
+   ____________________________________________________________
+   OOPS!!! A todo needs a description after 'todo'.
+   ____________________________________________________________
+   blah
+   ____________________________________________________________
+   OOPS!!! I don't recognize that command. Try todo, deadline, event, list, mark, unmark, or bye.
+   ____________________________________________________________
    bye
    ____________________________________________________________
    Bye. Hope to see you again soon!
