@@ -1,9 +1,52 @@
+import java.util.ArrayList;
 import java.util.Scanner;
 
 /**
  * Entry point for the Zeus chatbot application.
  */
 public class Zeus {
+    /**
+     * Identifies the operation requested by a user command.
+     */
+    private enum CommandType {
+        BYE,
+        LIST,
+        MARK,
+        UNMARK,
+        DELETE,
+        TODO,
+        DEADLINE,
+        EVENT,
+        UNKNOWN
+    }
+
+    /**
+     * Determines which supported operation a command requests.
+     *
+     * @param command command entered by the user
+     * @return corresponding command type, or {@link CommandType#UNKNOWN}
+     */
+    private static CommandType getCommandType(String command) {
+        if (command.equals("bye")) {
+            return CommandType.BYE;
+        } else if (command.equals("list")) {
+            return CommandType.LIST;
+        } else if (command.equals("mark") || command.startsWith("mark ")) {
+            return CommandType.MARK;
+        } else if (command.equals("unmark") || command.startsWith("unmark ")) {
+            return CommandType.UNMARK;
+        } else if (command.equals("delete") || command.startsWith("delete ")) {
+            return CommandType.DELETE;
+        } else if (command.equals("todo") || command.startsWith("todo ")) {
+            return CommandType.TODO;
+        } else if (command.equals("deadline") || command.startsWith("deadline ")) {
+            return CommandType.DEADLINE;
+        } else if (command.equals("event") || command.startsWith("event ")) {
+            return CommandType.EVENT;
+        }
+        return CommandType.UNKNOWN;
+    }
+
     /**
      * Converts a task-creation command into the corresponding task subtype.
      *
@@ -65,7 +108,8 @@ public class Zeus {
         }
 
         throw new ZeusException(
-                "I don't recognize that command. Try todo, deadline, event, list, mark, unmark, or bye."
+                "I don't recognize that command. Try todo, deadline, event, list, mark, unmark, "
+                        + "delete, or bye."
         );
     }
 
@@ -117,44 +161,56 @@ public class Zeus {
         System.out.println(separator);
 
         Scanner scanner = new Scanner(System.in);
-        Task[] tasks = new Task[100];
-        int taskCount = 0;
+        ArrayList<Task> tasks = new ArrayList<>();
 
         while (scanner.hasNextLine()) {
             String command = scanner.nextLine().trim();
 
             System.out.println(separator);
             try {
-                if (command.equals("bye")) {
+                CommandType commandType = getCommandType(command);
+                switch (commandType) {
+                case BYE -> {
                     System.out.println("Bye. Hope to see you again soon!");
                     System.out.println(separator);
-                    break;
-                } else if (command.equals("list")) {
+                    return;
+                }
+                case LIST -> {
                     System.out.println("Here are the tasks in your list:");
-                    for (int i = 0; i < taskCount; i++) {
-                        System.out.println((i + 1) + "." + tasks[i]);
+                    for (int i = 0; i < tasks.size(); i++) {
+                        System.out.println((i + 1) + "." + tasks.get(i));
                     }
-                } else if (command.equals("mark") || command.startsWith("mark ")) {
-                    int taskIndex = parseTaskIndex(command, "mark", taskCount);
-                    tasks[taskIndex].markAsDone();
+                }
+                case MARK -> {
+                    int taskIndex = parseTaskIndex(command, "mark", tasks.size());
+                    tasks.get(taskIndex).markAsDone();
                     System.out.println("Nice! I've marked this task as done:");
-                    System.out.println("  " + tasks[taskIndex]);
-                } else if (command.equals("unmark") || command.startsWith("unmark ")) {
-                    int taskIndex = parseTaskIndex(command, "unmark", taskCount);
-                    tasks[taskIndex].markAsNotDone();
+                    System.out.println("  " + tasks.get(taskIndex));
+                }
+                case UNMARK -> {
+                    int taskIndex = parseTaskIndex(command, "unmark", tasks.size());
+                    tasks.get(taskIndex).markAsNotDone();
                     System.out.println("OK, I've marked this task as not done yet:");
-                    System.out.println("  " + tasks[taskIndex]);
-                } else {
+                    System.out.println("  " + tasks.get(taskIndex));
+                }
+                case DELETE -> {
+                    int taskIndex = parseTaskIndex(command, "delete", tasks.size());
+                    Task removedTask = tasks.remove(taskIndex);
+                    System.out.println("Noted. I've removed this task:");
+                    System.out.println("  " + removedTask);
+                    System.out.println("Now you have " + tasks.size() + " tasks in the list.");
+                }
+                case TODO, DEADLINE, EVENT -> {
                     Task task = parseTask(command);
-                    if (taskCount == tasks.length) {
-                        throw new ZeusException("Your task list is full, so I can't add another task.");
-                    }
-
-                    tasks[taskCount] = task;
-                    taskCount++;
+                    tasks.add(task);
                     System.out.println("Got it. I've added this task:");
                     System.out.println("  " + task);
-                    System.out.println("Now you have " + taskCount + " tasks in the list.");
+                    System.out.println("Now you have " + tasks.size() + " tasks in the list.");
+                }
+                case UNKNOWN -> throw new ZeusException(
+                        "I don't recognize that command. Try todo, deadline, event, list, mark, "
+                                + "unmark, delete, or bye."
+                );
                 }
             } catch (ZeusException exception) {
                 System.out.println("OOPS!!! " + exception.getMessage());

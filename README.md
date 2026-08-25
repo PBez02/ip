@@ -59,13 +59,19 @@ Prerequisites: JDK 25, update Intellij to the most recent version.
    2.[D][ ] return book (by: Sunday)
    3.[E][ ] project meeting (from: Mon 2pm to: 4pm)
    ____________________________________________________________
+   delete 3
+   ____________________________________________________________
+   Noted. I've removed this task:
+     [E][ ] project meeting (from: Mon 2pm to: 4pm)
+   Now you have 2 tasks in the list.
+   ____________________________________________________________
    todo
    ____________________________________________________________
    OOPS!!! A todo needs a description after 'todo'.
    ____________________________________________________________
    blah
    ____________________________________________________________
-   OOPS!!! I don't recognize that command. Try todo, deadline, event, list, mark, unmark, or bye.
+   OOPS!!! I don't recognize that command. Try todo, deadline, event, list, mark, unmark, delete, or bye.
    ____________________________________________________________
    bye
    ____________________________________________________________

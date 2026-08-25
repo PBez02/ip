@@ -245,7 +245,7 @@ ____________________________________________________________
 OOPS!!! An event needs a description, '/from' start, and '/to' end.
 ____________________________________________________________
 ____________________________________________________________
-OOPS!!! I don't recognize that command. Try todo, deadline, event, list, mark, unmark, or bye.
+OOPS!!! I don't recognize that command. Try todo, deadline, event, list, mark, unmark, delete, or bye.
 ____________________________________________________________
 ____________________________________________________________
 Bye. Hope to see you again soon!
@@ -375,6 +375,150 @@ ____________________________________________________________
 ____________________________________________________________
 Here are the tasks in your list:
 1.[T][ ] valid task
+____________________________________________________________
+____________________________________________________________
+Bye. Hope to see you again soon!
+____________________________________________________________
+```
+
+## TC-8: Delete a task and renumber the list
+
+**Aim:** Verify that `delete N` removes the selected subtype, reports it, and shifts later task numbers down.
+
+### Input
+
+```text
+todo read book
+deadline return book /by June 6th
+event project meeting /from Aug 6th 2pm /to 4pm
+todo join sports club
+todo borrow book
+mark 1
+mark 2
+mark 4
+delete 3
+list
+bye
+```
+
+### Expected output
+
+```text
+____________________________________________________________
+ _____
+|__  /___ _   _ ___
+  / // _ \ | | / __|
+ / /|  __/ |_| \__ \
+/____\___|\__,_|___/
+Hello! I'm Zeus.
+What can I do for you?
+____________________________________________________________
+____________________________________________________________
+Got it. I've added this task:
+  [T][ ] read book
+Now you have 1 tasks in the list.
+____________________________________________________________
+____________________________________________________________
+Got it. I've added this task:
+  [D][ ] return book (by: June 6th)
+Now you have 2 tasks in the list.
+____________________________________________________________
+____________________________________________________________
+Got it. I've added this task:
+  [E][ ] project meeting (from: Aug 6th 2pm to: 4pm)
+Now you have 3 tasks in the list.
+____________________________________________________________
+____________________________________________________________
+Got it. I've added this task:
+  [T][ ] join sports club
+Now you have 4 tasks in the list.
+____________________________________________________________
+____________________________________________________________
+Got it. I've added this task:
+  [T][ ] borrow book
+Now you have 5 tasks in the list.
+____________________________________________________________
+____________________________________________________________
+Nice! I've marked this task as done:
+  [T][X] read book
+____________________________________________________________
+____________________________________________________________
+Nice! I've marked this task as done:
+  [D][X] return book (by: June 6th)
+____________________________________________________________
+____________________________________________________________
+Nice! I've marked this task as done:
+  [T][X] join sports club
+____________________________________________________________
+____________________________________________________________
+Noted. I've removed this task:
+  [E][ ] project meeting (from: Aug 6th 2pm to: 4pm)
+Now you have 4 tasks in the list.
+____________________________________________________________
+____________________________________________________________
+Here are the tasks in your list:
+1.[T][X] read book
+2.[D][X] return book (by: June 6th)
+3.[T][X] join sports club
+4.[T][ ] borrow book
+____________________________________________________________
+____________________________________________________________
+Bye. Hope to see you again soon!
+____________________________________________________________
+```
+
+## TC-9: Reject invalid deletion numbers
+
+**Aim:** Verify that delete rejects missing, non-numeric, empty-list, and out-of-range task numbers without removing anything.
+
+### Input
+
+```text
+delete
+delete two
+delete 1
+todo keep me
+delete 0
+delete 2
+list
+bye
+```
+
+### Expected output
+
+```text
+____________________________________________________________
+ _____
+|__  /___ _   _ ___
+  / // _ \ | | / __|
+ / /|  __/ |_| \__ \
+/____\___|\__,_|___/
+Hello! I'm Zeus.
+What can I do for you?
+____________________________________________________________
+____________________________________________________________
+OOPS!!! Tell me which task to delete, for example 'delete 1'.
+____________________________________________________________
+____________________________________________________________
+OOPS!!! The task number must be a whole number.
+____________________________________________________________
+____________________________________________________________
+OOPS!!! Your task list is empty.
+____________________________________________________________
+____________________________________________________________
+Got it. I've added this task:
+  [T][ ] keep me
+Now you have 1 tasks in the list.
+____________________________________________________________
+____________________________________________________________
+OOPS!!! There is no task number 0. Choose a number from 1 to 1.
+____________________________________________________________
+____________________________________________________________
+OOPS!!! There is no task number 2. Choose a number from 1 to 1.
+____________________________________________________________
+____________________________________________________________
+Here are the tasks in your list:
+1.[T][ ] keep me
 ____________________________________________________________
 ____________________________________________________________
 Bye. Hope to see you again soon!
