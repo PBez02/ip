@@ -1,9 +1,9 @@
 package zeus.task;
 
-import zeus.exception.ZeusException;
-
 import java.util.ArrayList;
 import java.util.List;
+
+import zeus.exception.ZeusException;
 
 /* Owns the in-memory task collection and its list operations. */
 public class TaskList {
@@ -64,6 +64,22 @@ public class TaskList {
         Task task = getTask(taskNumber);
         task.markAsNotDone();
         return task;
+    }
+
+    /**
+     * Returns tasks whose descriptions contain the specified keyword.
+     *
+     * @param keyword Keyword to find in task descriptions.
+     * @return Matching tasks in their original order.
+     */
+    public List<Task> find(String keyword) {
+        List<Task> matchingTasks = new ArrayList<>();
+        for (Task task : tasks) {
+            if (task.description.contains(keyword)) {
+                matchingTasks.add(task);
+            }
+        }
+        return List.copyOf(matchingTasks);
     }
 
     /*

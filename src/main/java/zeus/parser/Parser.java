@@ -1,9 +1,13 @@
 package zeus.parser;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
+
 import zeus.command.AddCommand;
 import zeus.command.Command;
 import zeus.command.DeleteCommand;
 import zeus.command.ExitCommand;
+import zeus.command.FindCommand;
 import zeus.command.ListCommand;
 import zeus.command.MarkCommand;
 import zeus.command.UnmarkCommand;
@@ -12,9 +16,6 @@ import zeus.task.Deadline;
 import zeus.task.Event;
 import zeus.task.Task;
 import zeus.task.Todo;
-
-import java.time.LocalDate;
-import java.time.format.DateTimeParseException;
 
 /* Converts user input into executable commands. */
 public final class Parser {
@@ -33,6 +34,8 @@ public final class Parser {
             return new ExitCommand();
         } else if (fullCommand.equals("list")) {
             return new ListCommand();
+        } else if (fullCommand.equals("find") || fullCommand.startsWith("find ")) {
+            return parseFindCommand(fullCommand);
         } else if (isNumberedCommand(fullCommand, "mark")) {
             return new MarkCommand(parseTaskNumber(fullCommand, "mark"));
         } else if (isNumberedCommand(fullCommand, "unmark")) {
@@ -44,9 +47,24 @@ public final class Parser {
         }
 
         throw new ZeusException(
-                "I don't recognize that command. Try todo, deadline, event, list, mark, "
+                "I don't recognize that command. Try todo, deadline, event, list, find, mark, "
                         + "unmark, delete, or bye."
         );
+    }
+
+    /**
+     * Creates a find command from a validated keyword.
+     *
+     * @param fullCommand Full find command entered by the user.
+     * @return Command that searches task descriptions.
+     * @throws ZeusException If the keyword is empty.
+     */
+    private static FindCommand parseFindCommand(String fullCommand) throws ZeusException {
+        String keyword = fullCommand.substring(4).trim();
+        if (keyword.isEmpty()) {
+            throw new ZeusException("Tell me what to find, for example 'find book'.");
+        }
+        return new FindCommand(keyword);
     }
 
     /*

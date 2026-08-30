@@ -1,9 +1,9 @@
 package zeus.ui;
 
-import zeus.task.Task;
-
 import java.util.List;
 import java.util.Scanner;
+
+import zeus.task.Task;
 
 /* Handles all console input and output for the Zeus chatbot. */
 public class Ui {
@@ -74,6 +74,18 @@ public class Ui {
         System.out.println("Here are the tasks in your list:");
         for (int i = 0; i < tasks.size(); i++) {
             System.out.println((i + 1) + "." + tasks.get(i));
+        }
+    }
+
+    /**
+     * Displays matching tasks in their current order.
+     *
+     * @param matchingTasks Tasks whose descriptions contain the search keyword.
+     */
+    public void showMatchingTasks(List<Task> matchingTasks) {
+        System.out.println("Here are the matching tasks in your list:");
+        for (int i = 0; i < matchingTasks.size(); i++) {
+            System.out.println((i + 1) + "." + matchingTasks.get(i));
         }
     }
 
