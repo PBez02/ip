@@ -1,6 +1,8 @@
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -71,12 +73,12 @@ public class Zeus {
             }
             return new Todo(description);
         } else if (command.equals("deadline")) {
-            throw new ZeusException("A deadline needs a description and '/by' date or time.");
+            throw new ZeusException("A deadline needs a description and '/by' date.");
         } else if (command.startsWith("deadline ")) {
             String taskDetails = command.substring(9).trim();
             int byIndex = taskDetails.indexOf("/by");
             if (byIndex < 0) {
-                throw new ZeusException("A deadline needs a '/by' date or time.");
+                throw new ZeusException("A deadline needs a '/by' date.");
             }
 
             String description = taskDetails.substring(0, byIndex).trim();
@@ -84,21 +86,22 @@ public class Zeus {
             if (description.isEmpty()) {
                 throw new ZeusException("A deadline needs a description before '/by'.");
             } else if (by.isEmpty()) {
-                throw new ZeusException("A deadline needs a date or time after '/by'.");
+                throw new ZeusException("A deadline needs a date after '/by'.");
             }
-            return new Deadline(description, by);
+            return new Deadline(description, parseDate(by, "deadline"));
         } else if (command.equals("event")) {
-            throw new ZeusException("An event needs a description, '/from' start, and '/to' end.");
+            throw new ZeusException(
+                    "An event needs a description, '/from' start date, and '/to' end date.");
         } else if (command.startsWith("event ")) {
             String taskDetails = command.substring(6).trim();
             int fromIndex = taskDetails.indexOf("/from");
             if (fromIndex < 0) {
-                throw new ZeusException("An event needs a start date or time after '/from'.");
+                throw new ZeusException("An event needs a start date after '/from'.");
             }
 
             int toIndex = taskDetails.indexOf("/to", fromIndex + 5);
             if (toIndex < 0) {
-                throw new ZeusException("An event needs an end date or time after '/to'.");
+                throw new ZeusException("An event needs an end date after '/to'.");
             }
 
             String description = taskDetails.substring(0, fromIndex).trim();
@@ -107,17 +110,51 @@ public class Zeus {
             if (description.isEmpty()) {
                 throw new ZeusException("An event needs a description before '/from'.");
             } else if (from.isEmpty()) {
-                throw new ZeusException("An event needs a start date or time after '/from'.");
+                throw new ZeusException("An event needs a start date after '/from'.");
             } else if (to.isEmpty()) {
-                throw new ZeusException("An event needs an end date or time after '/to'.");
+                throw new ZeusException("An event needs an end date after '/to'.");
             }
-            return new Event(description, from, to);
+
+            LocalDate fromDate = parseDate(from, "event start");
+            LocalDate toDate = parseDate(to, "event end");
+            validateEventDates(fromDate, toDate);
+            return new Event(description, fromDate, toDate);
         }
 
         throw new ZeusException(
                 "I don't recognize that command. Try todo, deadline, event, list, mark, unmark, "
                         + "delete, or bye."
         );
+    }
+
+    /**
+     * Parses a date written in the ISO {@code yyyy-MM-dd} format.
+     *
+     * @param dateText date entered by the user or read from storage
+     * @param fieldName name used to identify the invalid field in an error message
+     * @return parsed date
+     * @throws ZeusException if the text is not a valid ISO date
+     */
+    private static LocalDate parseDate(String dateText, String fieldName) throws ZeusException {
+        try {
+            return LocalDate.parse(dateText);
+        } catch (DateTimeParseException exception) {
+            throw new ZeusException("The " + fieldName
+                    + " date must use yyyy-MM-dd, for example 2019-10-15.");
+        }
+    }
+
+    /**
+     * Ensures that an event does not finish before it starts.
+     *
+     * @param from start date
+     * @param to end date
+     * @throws ZeusException if the end date precedes the start date
+     */
+    private static void validateEventDates(LocalDate from, LocalDate to) throws ZeusException {
+        if (to.isBefore(from)) {
+            throw new ZeusException("The event end date cannot be before its start date.");
+        }
     }
 
     /**
@@ -238,7 +275,7 @@ public class Zeus {
             if (by.isEmpty()) {
                 throw new ZeusException("The deadline's '/by' value is empty.");
             }
-            task = new Deadline(description, by);
+            task = new Deadline(description, parseDate(by, "deadline"));
         } else {
             String from = fields.get(3);
             String to = fields.get(4);
@@ -247,7 +284,10 @@ public class Zeus {
             } else if (to.isEmpty()) {
                 throw new ZeusException("The event's '/to' value is empty.");
             }
-            task = new Event(description, from, to);
+            LocalDate fromDate = parseDate(from, "event start");
+            LocalDate toDate = parseDate(to, "event end");
+            validateEventDates(fromDate, toDate);
+            task = new Event(description, fromDate, toDate);
         }
 
         if (status.equals("1")) {
