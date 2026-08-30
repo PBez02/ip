@@ -19,6 +19,17 @@ public class Event extends Task {
     }
 
     /**
+     * Returns this event in the format stored on disk.
+     *
+     * @return serialized event task
+     */
+    @Override
+    public String toDataString() {
+        return "E | " + super.toDataString() + " | " + escapeDataField(from)
+                + " | " + escapeDataField(to);
+    }
+
+    /**
      * Returns this task with its event type icon and start/end text.
      *
      * @return formatted event task

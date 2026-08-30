@@ -46,3 +46,7 @@ Exact program output
 ````
 
 Keep commands in execution order. Expected output contains only text written by the program; do not duplicate the input commands there.
+
+When a case needs tasks to exist before Zeus starts, add an optional `### Initial data file` fenced text block containing the exact starting contents of `data/zeus.txt`. The runner creates that file before launching Zeus.
+
+When a test also verifies persistence, add an optional `### Expected data file` fenced text block containing the exact expected contents of `data/zeus.txt`. The runner executes every case in an isolated temporary working directory, so tests never overwrite the user's real data file.

@@ -16,6 +16,16 @@ public class Deadline extends Task {
     }
 
     /**
+     * Returns this deadline in the format stored on disk.
+     *
+     * @return serialized deadline task
+     */
+    @Override
+    public String toDataString() {
+        return "D | " + super.toDataString() + " | " + escapeDataField(by);
+    }
+
+    /**
      * Returns this task with its deadline type icon and deadline text.
      *
      * @return formatted deadline task

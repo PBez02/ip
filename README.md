@@ -79,4 +79,8 @@ Prerequisites: JDK 25, update Intellij to the most recent version.
    ____________________________________________________________
    ```
 
+## Data storage
+
+Zeus saves the current task list to `data/zeus.txt` whenever a task is added, marked, unmarked, or deleted. It loads valid saved tasks automatically at startup and reports malformed records without crashing.
+
 **Warning:** Keep the `src\main\java` folder as the root folder for Java files (i.e., don't rename those folders or move Java files to another folder outside of this folder path), as this is the default location some tools (e.g., Gradle) expect to find Java files.

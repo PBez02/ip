@@ -39,6 +39,25 @@ public class Task {
     }
 
     /**
+     * Escapes characters that have special meaning in the data file.
+     *
+     * @param value task field to escape
+     * @return escaped field safe for pipe-separated storage
+     */
+    protected static String escapeDataField(String value) {
+        return value.replace("\\", "\\\\").replace("|", "\\|");
+    }
+
+    /**
+     * Returns the common fields used when saving this task.
+     *
+     * @return completion status and description separated by {@code |}
+     */
+    public String toDataString() {
+        return (isDone ? "1" : "0") + " | " + escapeDataField(description);
+    }
+
+    /**
      * Returns this task in the format displayed by Zeus.
      *
      * @return the status icon followed by the task description

@@ -12,6 +12,16 @@ public class Todo extends Task {
     }
 
     /**
+     * Returns this to-do in the format stored on disk.
+     *
+     * @return serialized to-do task
+     */
+    @Override
+    public String toDataString() {
+        return "T | " + super.toDataString();
+    }
+
+    /**
      * Returns this task with its to-do type icon.
      *
      * @return formatted to-do task
