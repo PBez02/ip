@@ -11,16 +11,16 @@ public class Deadline extends Task {
             DateTimeFormatter.ofPattern("MMM d yyyy", Locale.ENGLISH);
 
     /* Date by which this task must be completed. */
-    protected LocalDate by;
+    protected LocalDate dueDate;
 
     /*
      * Creates an incomplete deadline task.
      * @param description description of the task
-     * @param by date by which the task must be completed
+     * @param dueDate date by which the task must be completed
      */
-    public Deadline(String description, LocalDate by) {
+    public Deadline(String description, LocalDate dueDate) {
         super(description);
-        this.by = by;
+        this.dueDate = dueDate;
     }
 
     /*
@@ -29,7 +29,7 @@ public class Deadline extends Task {
      */
     @Override
     public String toDataString() {
-        return "D | " + super.toDataString() + " | " + by;
+        return "D | " + super.toDataString() + " | " + dueDate;
     }
 
     /*
@@ -38,6 +38,7 @@ public class Deadline extends Task {
      */
     @Override
     public String toString() {
-        return "[D]" + super.toString() + " (by: " + by.format(DISPLAY_DATE_FORMAT) + ")";
+        return "[D]" + super.toString() + " (by: "
+                + dueDate.format(DISPLAY_DATE_FORMAT) + ")";
     }
 }

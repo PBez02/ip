@@ -1,12 +1,5 @@
 package zeus.storage;
 
-import zeus.exception.ZeusException;
-import zeus.task.Deadline;
-import zeus.task.Event;
-import zeus.task.Task;
-import zeus.task.TaskList;
-import zeus.task.Todo;
-
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -14,6 +7,13 @@ import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
+
+import zeus.exception.ZeusException;
+import zeus.task.Deadline;
+import zeus.task.Event;
+import zeus.task.Task;
+import zeus.task.TaskList;
+import zeus.task.Todo;
 
 /* Loads tasks from disk and saves the current task list. */
 public class Storage {
@@ -169,10 +169,10 @@ public class Storage {
      */
     private int getExpectedFieldCount(String taskType) throws ZeusException {
         return switch (taskType) {
-        case "T" -> 3;
-        case "D" -> 4;
-        case "E" -> 5;
-        default -> throw new ZeusException("Unknown task type '" + taskType + "'.");
+            case "T" -> 3;
+            case "D" -> 4;
+            case "E" -> 5;
+            default -> throw new ZeusException("Unknown task type '" + taskType + "'.");
         };
     }
 

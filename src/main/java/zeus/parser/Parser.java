@@ -1,5 +1,8 @@
 package zeus.parser;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
+
 import zeus.command.AddCommand;
 import zeus.command.Command;
 import zeus.command.DeleteCommand;
@@ -12,9 +15,6 @@ import zeus.task.Deadline;
 import zeus.task.Event;
 import zeus.task.Task;
 import zeus.task.Todo;
-
-import java.time.LocalDate;
-import java.time.format.DateTimeParseException;
 
 /* Converts user input into executable commands. */
 public final class Parser {
