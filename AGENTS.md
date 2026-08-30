@@ -41,3 +41,10 @@ After every code update:
 1. Review `test/ui-test-plan.md` and update it when the change affects commands, messages, formatting, or other observable behavior.
 2. Invoke the project-specific `test-ui` skill in `.agents/skills/test-ui`.
 3. Stop at the first failing UI test and report its actual and expected output.
+
+## JUnit testing
+
+After every code update, review and update the JUnit tests as needed to keep focused
+coverage of approximately the top 50% highest-value methods. Prioritize complex, core,
+and critical business logic over trivial accessors or console-printing methods, and run
+the JUnit suite using Gradle and Java 25.
