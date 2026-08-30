@@ -1,10 +1,17 @@
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 /**
  * Entry point for the Zeus chatbot application.
  */
 public class Zeus {
+    /** Location of the file used to persist tasks between runs. */
+    private static final Path DATA_FILE = Path.of("data", "zeus.txt");
+
     /**
      * Identifies the operation requested by a user command.
      */
@@ -146,6 +153,169 @@ public class Zeus {
         return taskNumber - 1;
     }
 
+    /**
+     * Splits a saved line at unescaped pipe characters and unescapes its fields.
+     *
+     * @param line saved task record
+     * @return fields contained in the record
+     * @throws ZeusException if the record ends with an escape or uses an invalid escape
+     */
+    private static List<String> splitDataLine(String line) throws ZeusException {
+        ArrayList<String> fields = new ArrayList<>();
+        StringBuilder field = new StringBuilder();
+        boolean isEscaped = false;
+
+        for (int i = 0; i < line.length(); i++) {
+            char character = line.charAt(i);
+            if (isEscaped) {
+                if (character != '\\' && character != '|') {
+                    throw new ZeusException("Invalid escape sequence '\\" + character + "'.");
+                }
+                field.append(character);
+                isEscaped = false;
+            } else if (character == '\\') {
+                isEscaped = true;
+            } else if (character == '|') {
+                fields.add(field.toString().trim());
+                field.setLength(0);
+            } else {
+                field.append(character);
+            }
+        }
+
+        if (isEscaped) {
+            throw new ZeusException("The record ends with an incomplete escape sequence.");
+        }
+        fields.add(field.toString().trim());
+        return fields;
+    }
+
+    /**
+     * Converts one validated data-file record into a task.
+     *
+     * @param line saved task record
+     * @return task represented by the record
+     * @throws ZeusException if the record is malformed or contains unsupported values
+     */
+    private static Task parseSavedTask(String line) throws ZeusException {
+        List<String> fields = splitDataLine(line);
+        if (fields.size() < 2) {
+            throw new ZeusException("A record needs a task type and completion status.");
+        }
+
+        String taskType = fields.get(0);
+        int expectedFieldCount;
+        if (taskType.equals("T")) {
+            expectedFieldCount = 3;
+        } else if (taskType.equals("D")) {
+            expectedFieldCount = 4;
+        } else if (taskType.equals("E")) {
+            expectedFieldCount = 5;
+        } else {
+            throw new ZeusException("Unknown task type '" + taskType + "'.");
+        }
+
+        if (fields.size() != expectedFieldCount) {
+            throw new ZeusException("Task type '" + taskType + "' needs " + expectedFieldCount
+                    + " fields, but this record has " + fields.size() + ".");
+        }
+
+        String status = fields.get(1);
+        if (!status.equals("0") && !status.equals("1")) {
+            throw new ZeusException("Completion status must be 0 or 1, not '" + status + "'.");
+        }
+
+        String description = fields.get(2);
+        if (description.isEmpty()) {
+            throw new ZeusException("The task description is empty.");
+        }
+
+        Task task;
+        if (taskType.equals("T")) {
+            task = new Todo(description);
+        } else if (taskType.equals("D")) {
+            String by = fields.get(3);
+            if (by.isEmpty()) {
+                throw new ZeusException("The deadline's '/by' value is empty.");
+            }
+            task = new Deadline(description, by);
+        } else {
+            String from = fields.get(3);
+            String to = fields.get(4);
+            if (from.isEmpty()) {
+                throw new ZeusException("The event's '/from' value is empty.");
+            } else if (to.isEmpty()) {
+                throw new ZeusException("The event's '/to' value is empty.");
+            }
+            task = new Event(description, from, to);
+        }
+
+        if (status.equals("1")) {
+            task.markAsDone();
+        }
+        return task;
+    }
+
+    /**
+     * Loads all valid tasks from disk and records recoverable problems as warnings.
+     *
+     * @param warnings destination for user-friendly loading warnings
+     * @return valid tasks loaded in file order, or an empty list when no file is available
+     */
+    private static List<Task> loadTasks(List<String> warnings) {
+        ArrayList<Task> tasks = new ArrayList<>();
+        List<String> lines;
+
+        try {
+            if (Files.notExists(DATA_FILE)) {
+                return tasks;
+            } else if (!Files.isRegularFile(DATA_FILE)) {
+                warnings.add(DATA_FILE
+                        + " is not a readable task file. Starting with an empty list.");
+                return tasks;
+            }
+            lines = Files.readAllLines(DATA_FILE);
+        } catch (IOException | SecurityException exception) {
+            warnings.add("I couldn't read " + DATA_FILE + ". Starting with an empty list.");
+            return tasks;
+        }
+
+        for (int i = 0; i < lines.size(); i++) {
+            String line = lines.get(i);
+            if (line.isBlank()) {
+                continue;
+            }
+
+            try {
+                tasks.add(parseSavedTask(line));
+            } catch (ZeusException exception) {
+                warnings.add("Saved data line " + (i + 1) + " was ignored: "
+                        + exception.getMessage());
+            }
+        }
+        return tasks;
+    }
+
+    /**
+     * Writes the current task list to the data file, replacing its old contents.
+     *
+     * @param tasks tasks to save
+     * @throws ZeusException if the data directory or file cannot be written
+     */
+    private static void saveTasks(List<Task> tasks) throws ZeusException {
+        ArrayList<String> lines = new ArrayList<>();
+        for (Task task : tasks) {
+            lines.add(task.toDataString());
+        }
+
+        try {
+            Files.createDirectories(DATA_FILE.getParent());
+            Files.write(DATA_FILE, lines);
+        } catch (IOException | SecurityException exception) {
+            throw new ZeusException("I couldn't save your tasks to " + DATA_FILE + ".");
+        }
+    }
+
     public static void main(String[] args) {
         String banner = " _____\n"
                 + "|__  /___ _   _ ___\n"
@@ -161,7 +331,14 @@ public class Zeus {
         System.out.println(separator);
 
         Scanner scanner = new Scanner(System.in);
-        ArrayList<Task> tasks = new ArrayList<>();
+        List<String> loadWarnings = new ArrayList<>();
+        List<Task> tasks = loadTasks(loadWarnings);
+        for (String warning : loadWarnings) {
+            System.out.println("OOPS!!! " + warning);
+        }
+        if (!loadWarnings.isEmpty()) {
+            System.out.println(separator);
+        }
 
         while (scanner.hasNextLine()) {
             String command = scanner.nextLine().trim();
@@ -184,18 +361,21 @@ public class Zeus {
                 case MARK -> {
                     int taskIndex = parseTaskIndex(command, "mark", tasks.size());
                     tasks.get(taskIndex).markAsDone();
+                    saveTasks(tasks);
                     System.out.println("Nice! I've marked this task as done:");
                     System.out.println("  " + tasks.get(taskIndex));
                 }
                 case UNMARK -> {
                     int taskIndex = parseTaskIndex(command, "unmark", tasks.size());
                     tasks.get(taskIndex).markAsNotDone();
+                    saveTasks(tasks);
                     System.out.println("OK, I've marked this task as not done yet:");
                     System.out.println("  " + tasks.get(taskIndex));
                 }
                 case DELETE -> {
                     int taskIndex = parseTaskIndex(command, "delete", tasks.size());
                     Task removedTask = tasks.remove(taskIndex);
+                    saveTasks(tasks);
                     System.out.println("Noted. I've removed this task:");
                     System.out.println("  " + removedTask);
                     System.out.println("Now you have " + tasks.size() + " tasks in the list.");
@@ -203,6 +383,7 @@ public class Zeus {
                 case TODO, DEADLINE, EVENT -> {
                     Task task = parseTask(command);
                     tasks.add(task);
+                    saveTasks(tasks);
                     System.out.println("Got it. I've added this task:");
                     System.out.println("  " + task);
                     System.out.println("Now you have " + tasks.size() + " tasks in the list.");

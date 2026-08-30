@@ -85,6 +85,13 @@ def fenced_block(section: str, heading: str) -> str:
     return match.group(1)
 
 
+def optional_fenced_block(section: str, heading: str) -> str | None:
+    """Extract an optional fenced text block from a test case."""
+    pattern = rf"^### {re.escape(heading)}\s*\n\s*```(?:text)?\s*\n(.*?)\n```"
+    match = re.search(pattern, section, flags=re.MULTILINE | re.DOTALL)
+    return match.group(1) if match else None
+
+
 def parse_plan(plan_path: Path) -> list[dict[str, object]]:
     """Parse test cases from the Markdown UI test plan."""
     plan_text = plan_path.read_text(encoding="utf-8").replace("\r\n", "\n")
@@ -100,12 +107,16 @@ def parse_plan(plan_path: Path) -> list[dict[str, object]]:
         if not aim_match:
             raise ValueError(f"{heading.group(1)} is missing its aim")
 
+        initial_data = optional_fenced_block(section, "Initial data file")
+        expected_data = optional_fenced_block(section, "Expected data file")
         cases.append(
             {
                 "name": heading.group(1),
                 "aim": aim_match.group(1),
                 "commands": fenced_block(section, "Input").splitlines(),
                 "expected": fenced_block(section, "Expected output").splitlines(),
+                "initial_data": initial_data.splitlines() if initial_data is not None else None,
+                "expected_data": expected_data.splitlines() if expected_data is not None else None,
             }
         )
     return cases
@@ -146,51 +157,91 @@ def run_tests(repo_root: Path, plan_path: Path) -> int:
         for case_number, case in enumerate(cases, start=1):
             commands = case["commands"]
             expected = case["expected"]
+            initial_data = case["initial_data"]
+            expected_data = case["expected_data"]
             assert isinstance(commands, list)
             assert isinstance(expected, list)
+            assert initial_data is None or isinstance(initial_data, list)
+            assert expected_data is None or isinstance(expected_data, list)
 
-            result = subprocess.run(
-                [str(java), "-cp", build_directory, "Zeus"],
-                cwd=repo_root,
-                input="\n".join(commands) + "\n",
-                capture_output=True,
-                text=True,
-                check=False,
-            )
-            actual = result.stdout.replace("\r\n", "\n").splitlines()
+            with tempfile.TemporaryDirectory(prefix=f"zeus-ui-case-{case_number}-") as case_directory:
+                data_file = Path(case_directory) / "data/zeus.txt"
+                if initial_data is not None:
+                    data_file.parent.mkdir(parents=True)
+                    data_file.write_text("\n".join(initial_data) + "\n", encoding="utf-8")
 
-            print(f"\n=== {case['name']} ===")
-            print(f"Aim: {case['aim']}")
-            print("Console input:")
-            show_lines(commands, prefix="> ")
-            print("Console output:")
-            show_lines(actual)
+                result = subprocess.run(
+                    [str(java), "-cp", build_directory, "Zeus"],
+                    cwd=case_directory,
+                    input="\n".join(commands) + "\n",
+                    capture_output=True,
+                    text=True,
+                    check=False,
+                )
+                actual = result.stdout.replace("\r\n", "\n").splitlines()
+                actual_data = (
+                    data_file.read_text(encoding="utf-8").replace("\r\n", "\n").splitlines()
+                    if data_file.exists()
+                    else None
+                )
 
-            if result.returncode != 0 or actual != expected:
-                print("RESULT: FAIL")
-                print("\nExpected output:")
-                show_lines(expected)
-                print("\nActual output:")
+                print(f"\n=== {case['name']} ===")
+                print(f"Aim: {case['aim']}")
+                if initial_data is not None:
+                    print("Initial data file:")
+                    show_lines(initial_data)
+                print("Console input:")
+                show_lines(commands, prefix="> ")
+                print("Console output:")
                 show_lines(actual)
-                if result.stderr:
-                    print("\nStandard error:")
-                    print(result.stderr, end="")
-                print("\nDifference (expected -> actual):")
-                show_lines(
-                    list(
-                        difflib.unified_diff(
-                            expected,
-                            actual,
-                            fromfile="expected",
-                            tofile="actual",
-                            lineterm="",
+                if expected_data is not None:
+                    print("Saved data file:")
+                    show_lines(actual_data if actual_data is not None else ["<missing>"])
+
+                data_matches = expected_data is None or actual_data == expected_data
+                if result.returncode != 0 or actual != expected or not data_matches:
+                    print("RESULT: FAIL")
+                    print("\nExpected output:")
+                    show_lines(expected)
+                    print("\nActual output:")
+                    show_lines(actual)
+                    if expected_data is not None:
+                        print("\nExpected data file:")
+                        show_lines(expected_data)
+                        print("\nActual data file:")
+                        show_lines(actual_data if actual_data is not None else ["<missing>"])
+                    if result.stderr:
+                        print("\nStandard error:")
+                        print(result.stderr, end="")
+                    print("\nOutput difference (expected -> actual):")
+                    show_lines(
+                        list(
+                            difflib.unified_diff(
+                                expected,
+                                actual,
+                                fromfile="expected-output",
+                                tofile="actual-output",
+                                lineterm="",
+                            )
                         )
                     )
-                )
-                print(f"\nUI TEST RESULT: FAIL ({case_number - 1}/{len(cases)} passed)")
-                return 1
+                    if expected_data is not None:
+                        print("\nData difference (expected -> actual):")
+                        show_lines(
+                            list(
+                                difflib.unified_diff(
+                                    expected_data,
+                                    actual_data or [],
+                                    fromfile="expected-data",
+                                    tofile="actual-data",
+                                    lineterm="",
+                                )
+                            )
+                        )
+                    print(f"\nUI TEST RESULT: FAIL ({case_number - 1}/{len(cases)} passed)")
+                    return 1
 
-            print("RESULT: PASS")
+                print("RESULT: PASS")
 
     print(f"\nUI TEST RESULT: PASS ({len(cases)}/{len(cases)} passed)")
     return 0

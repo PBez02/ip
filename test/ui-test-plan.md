@@ -524,3 +524,275 @@ ____________________________________________________________
 Bye. Hope to see you again soon!
 ____________________________________________________________
 ```
+
+## TC-10: Save task changes to disk
+
+**Aim:** Verify that adding, marking, and deleting tasks writes the latest task list to `data/zeus.txt` in the serialized format.
+
+### Input
+
+```text
+todo read book
+deadline return book /by June 6th
+event project meeting /from Aug 6th 2pm /to 4pm
+mark 1
+delete 2
+bye
+```
+
+### Expected output
+
+```text
+____________________________________________________________
+ _____
+|__  /___ _   _ ___
+  / // _ \ | | / __|
+ / /|  __/ |_| \__ \
+/____\___|\__,_|___/
+Hello! I'm Zeus.
+What can I do for you?
+____________________________________________________________
+____________________________________________________________
+Got it. I've added this task:
+  [T][ ] read book
+Now you have 1 tasks in the list.
+____________________________________________________________
+____________________________________________________________
+Got it. I've added this task:
+  [D][ ] return book (by: June 6th)
+Now you have 2 tasks in the list.
+____________________________________________________________
+____________________________________________________________
+Got it. I've added this task:
+  [E][ ] project meeting (from: Aug 6th 2pm to: 4pm)
+Now you have 3 tasks in the list.
+____________________________________________________________
+____________________________________________________________
+Nice! I've marked this task as done:
+  [T][X] read book
+____________________________________________________________
+____________________________________________________________
+Noted. I've removed this task:
+  [D][ ] return book (by: June 6th)
+Now you have 2 tasks in the list.
+____________________________________________________________
+____________________________________________________________
+Bye. Hope to see you again soon!
+____________________________________________________________
+```
+
+### Expected data file
+
+```text
+T | 1 | read book
+E | 0 | project meeting | Aug 6th 2pm | 4pm
+```
+
+## TC-11: Load all saved task types
+
+**Aim:** Verify that Zeus loads todos, deadlines, and events from `data/zeus.txt`, including their saved completion status and original order.
+
+### Initial data file
+
+```text
+T | 1 | read book
+D | 0 | return book | June 6th
+E | 1 | project meeting | Aug 6th 2pm | 4pm
+```
+
+### Input
+
+```text
+list
+bye
+```
+
+### Expected output
+
+```text
+____________________________________________________________
+ _____
+|__  /___ _   _ ___
+  / // _ \ | | / __|
+ / /|  __/ |_| \__ \
+/____\___|\__,_|___/
+Hello! I'm Zeus.
+What can I do for you?
+____________________________________________________________
+____________________________________________________________
+Here are the tasks in your list:
+1.[T][X] read book
+2.[D][ ] return book (by: June 6th)
+3.[E][X] project meeting (from: Aug 6th 2pm to: 4pm)
+____________________________________________________________
+____________________________________________________________
+Bye. Hope to see you again soon!
+____________________________________________________________
+```
+
+### Expected data file
+
+```text
+T | 1 | read book
+D | 0 | return book | June 6th
+E | 1 | project meeting | Aug 6th 2pm | 4pm
+```
+
+## TC-12: Start without a data file
+
+**Aim:** Verify that a missing `data/zeus.txt` is treated as a new empty task list without displaying an error.
+
+### Input
+
+```text
+list
+bye
+```
+
+### Expected output
+
+```text
+____________________________________________________________
+ _____
+|__  /___ _   _ ___
+  / // _ \ | | / __|
+ / /|  __/ |_| \__ \
+/____\___|\__,_|___/
+Hello! I'm Zeus.
+What can I do for you?
+____________________________________________________________
+____________________________________________________________
+Here are the tasks in your list:
+____________________________________________________________
+____________________________________________________________
+Bye. Hope to see you again soon!
+____________________________________________________________
+```
+
+## TC-13: Recover from malformed saved records
+
+**Aim:** Verify that blank lines are ignored, every malformed saved record gets a specific warning, valid records still load, and the next task change rewrites only valid tasks.
+
+### Initial data file
+
+```text
+T | 1 | valid todo
+
+X | 0 | unknown type
+D | 2 | bad status | Monday
+D | 0 | | Monday
+D | 0 | missing by
+D | 0 | no date |
+E | 0 | valid event | Monday | Tuesday
+E | 0 | missing end | Monday |
+T | 0 | bad \q escape
+T | 0 | trailing \
+garbage
+```
+
+### Input
+
+```text
+list
+todo recovered task
+bye
+```
+
+### Expected output
+
+```text
+____________________________________________________________
+ _____
+|__  /___ _   _ ___
+  / // _ \ | | / __|
+ / /|  __/ |_| \__ \
+/____\___|\__,_|___/
+Hello! I'm Zeus.
+What can I do for you?
+____________________________________________________________
+OOPS!!! Saved data line 3 was ignored: Unknown task type 'X'.
+OOPS!!! Saved data line 4 was ignored: Completion status must be 0 or 1, not '2'.
+OOPS!!! Saved data line 5 was ignored: The task description is empty.
+OOPS!!! Saved data line 6 was ignored: Task type 'D' needs 4 fields, but this record has 3.
+OOPS!!! Saved data line 7 was ignored: The deadline's '/by' value is empty.
+OOPS!!! Saved data line 9 was ignored: The event's '/to' value is empty.
+OOPS!!! Saved data line 10 was ignored: Invalid escape sequence '\q'.
+OOPS!!! Saved data line 11 was ignored: The record ends with an incomplete escape sequence.
+OOPS!!! Saved data line 12 was ignored: A record needs a task type and completion status.
+____________________________________________________________
+____________________________________________________________
+Here are the tasks in your list:
+1.[T][X] valid todo
+2.[E][ ] valid event (from: Monday to: Tuesday)
+____________________________________________________________
+____________________________________________________________
+Got it. I've added this task:
+  [T][ ] recovered task
+Now you have 3 tasks in the list.
+____________________________________________________________
+____________________________________________________________
+Bye. Hope to see you again soon!
+____________________________________________________________
+```
+
+### Expected data file
+
+```text
+T | 1 | valid todo
+E | 0 | valid event | Monday | Tuesday
+T | 0 | recovered task
+```
+
+## TC-14: Preserve storage separator and escape characters
+
+**Aim:** Verify that escaped pipe and backslash characters load as ordinary task text and are escaped again when Zeus saves the list.
+
+### Initial data file
+
+```text
+T | 0 | compare A \| B
+D | 1 | use path | C:\\Temp
+```
+
+### Input
+
+```text
+list
+todo back up C:\Temp | archive
+bye
+```
+
+### Expected output
+
+```text
+____________________________________________________________
+ _____
+|__  /___ _   _ ___
+  / // _ \ | | / __|
+ / /|  __/ |_| \__ \
+/____\___|\__,_|___/
+Hello! I'm Zeus.
+What can I do for you?
+____________________________________________________________
+____________________________________________________________
+Here are the tasks in your list:
+1.[T][ ] compare A | B
+2.[D][X] use path (by: C:\Temp)
+____________________________________________________________
+____________________________________________________________
+Got it. I've added this task:
+  [T][ ] back up C:\Temp | archive
+Now you have 3 tasks in the list.
+____________________________________________________________
+____________________________________________________________
+Bye. Hope to see you again soon!
+____________________________________________________________
+```
+
+### Expected data file
+
+```text
+T | 0 | compare A \| B
+D | 1 | use path | C:\\Temp
+T | 0 | back up C:\\Temp \| archive
+```
