@@ -30,39 +30,39 @@ Prerequisites: JDK 25, update Intellij to the most recent version.
      [T][ ] borrow book
    Now you have 1 tasks in the list.
    ____________________________________________________________
-   deadline return book /by Sunday
+   deadline return book /by 2026-09-06
    ____________________________________________________________
    Got it. I've added this task:
-     [D][ ] return book (by: Sunday)
+     [D][ ] return book (by: Sep 6 2026)
    Now you have 2 tasks in the list.
    ____________________________________________________________
-   event project meeting /from Mon 2pm /to 4pm
+   event project meeting /from 2026-09-07 /to 2026-09-08
    ____________________________________________________________
    Got it. I've added this task:
-     [E][ ] project meeting (from: Mon 2pm to: 4pm)
+     [E][ ] project meeting (from: Sep 7 2026 to: Sep 8 2026)
    Now you have 3 tasks in the list.
    ____________________________________________________________
    mark 2
    ____________________________________________________________
    Nice! I've marked this task as done:
-     [D][X] return book (by: Sunday)
+     [D][X] return book (by: Sep 6 2026)
    ____________________________________________________________
    unmark 2
    ____________________________________________________________
    OK, I've marked this task as not done yet:
-     [D][ ] return book (by: Sunday)
+     [D][ ] return book (by: Sep 6 2026)
    ____________________________________________________________
    list
    ____________________________________________________________
    Here are the tasks in your list:
    1.[T][ ] borrow book
-   2.[D][ ] return book (by: Sunday)
-   3.[E][ ] project meeting (from: Mon 2pm to: 4pm)
+   2.[D][ ] return book (by: Sep 6 2026)
+   3.[E][ ] project meeting (from: Sep 7 2026 to: Sep 8 2026)
    ____________________________________________________________
    delete 3
    ____________________________________________________________
    Noted. I've removed this task:
-     [E][ ] project meeting (from: Mon 2pm to: 4pm)
+     [E][ ] project meeting (from: Sep 7 2026 to: Sep 8 2026)
    Now you have 2 tasks in the list.
    ____________________________________________________________
    todo
@@ -81,6 +81,6 @@ Prerequisites: JDK 25, update Intellij to the most recent version.
 
 ## Data storage
 
-Zeus saves the current task list to `data/zeus.txt` whenever a task is added, marked, unmarked, or deleted. It loads valid saved tasks automatically at startup and reports malformed records without crashing.
+Zeus accepts deadline and event dates in `yyyy-MM-dd` format, such as `2026-09-06`, and displays them as `Sep 6 2026`. It saves the current task list to `data/zeus.txt` whenever a task is added, marked, unmarked, or deleted. It loads valid saved tasks automatically at startup and reports malformed records without crashing.
 
 **Warning:** Keep the `src\main\java` folder as the root folder for Java files (i.e., don't rename those folders or move Java files to another folder outside of this folder path), as this is the default location some tools (e.g., Gradle) expect to find Java files.

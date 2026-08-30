@@ -10,8 +10,8 @@ Each case is run in a fresh Zeus process. Inputs are sent in order through stand
 
 ```text
 todo borrow book
-deadline return book /by Sunday
-event project meeting /from Mon 2pm /to 4pm
+deadline return book /by 2026-09-06
+event project meeting /from 2026-09-07 /to 2026-09-08
 list
 bye
 ```
@@ -35,19 +35,19 @@ Now you have 1 tasks in the list.
 ____________________________________________________________
 ____________________________________________________________
 Got it. I've added this task:
-  [D][ ] return book (by: Sunday)
+  [D][ ] return book (by: Sep 6 2026)
 Now you have 2 tasks in the list.
 ____________________________________________________________
 ____________________________________________________________
 Got it. I've added this task:
-  [E][ ] project meeting (from: Mon 2pm to: 4pm)
+  [E][ ] project meeting (from: Sep 7 2026 to: Sep 8 2026)
 Now you have 3 tasks in the list.
 ____________________________________________________________
 ____________________________________________________________
 Here are the tasks in your list:
 1.[T][ ] borrow book
-2.[D][ ] return book (by: Sunday)
-3.[E][ ] project meeting (from: Mon 2pm to: 4pm)
+2.[D][ ] return book (by: Sep 6 2026)
+3.[E][ ] project meeting (from: Sep 7 2026 to: Sep 8 2026)
 ____________________________________________________________
 ____________________________________________________________
 Bye. Hope to see you again soon!
@@ -62,7 +62,7 @@ ____________________________________________________________
 
 ```text
 todo read book
-deadline return book /by June 6th
+deadline return book /by 2026-06-06
 mark 1
 mark 2
 list
@@ -88,7 +88,7 @@ Now you have 1 tasks in the list.
 ____________________________________________________________
 ____________________________________________________________
 Got it. I've added this task:
-  [D][ ] return book (by: June 6th)
+  [D][ ] return book (by: Jun 6 2026)
 Now you have 2 tasks in the list.
 ____________________________________________________________
 ____________________________________________________________
@@ -97,12 +97,12 @@ Nice! I've marked this task as done:
 ____________________________________________________________
 ____________________________________________________________
 Nice! I've marked this task as done:
-  [D][X] return book (by: June 6th)
+  [D][X] return book (by: Jun 6 2026)
 ____________________________________________________________
 ____________________________________________________________
 Here are the tasks in your list:
 1.[T][X] read book
-2.[D][X] return book (by: June 6th)
+2.[D][X] return book (by: Jun 6 2026)
 ____________________________________________________________
 ____________________________________________________________
 Bye. Hope to see you again soon!
@@ -117,7 +117,7 @@ ____________________________________________________________
 
 ```text
 todo read book
-deadline return book /by June 6th
+deadline return book /by 2026-06-06
 mark 2
 unmark 2
 list
@@ -143,36 +143,36 @@ Now you have 1 tasks in the list.
 ____________________________________________________________
 ____________________________________________________________
 Got it. I've added this task:
-  [D][ ] return book (by: June 6th)
+  [D][ ] return book (by: Jun 6 2026)
 Now you have 2 tasks in the list.
 ____________________________________________________________
 ____________________________________________________________
 Nice! I've marked this task as done:
-  [D][X] return book (by: June 6th)
+  [D][X] return book (by: Jun 6 2026)
 ____________________________________________________________
 ____________________________________________________________
 OK, I've marked this task as not done yet:
-  [D][ ] return book (by: June 6th)
+  [D][ ] return book (by: Jun 6 2026)
 ____________________________________________________________
 ____________________________________________________________
 Here are the tasks in your list:
 1.[T][ ] read book
-2.[D][ ] return book (by: June 6th)
+2.[D][ ] return book (by: Jun 6 2026)
 ____________________________________________________________
 ____________________________________________________________
 Bye. Hope to see you again soon!
 ____________________________________________________________
 ```
 
-## TC-4: Preserve arbitrary date and time text
+## TC-4: Parse and format ISO dates
 
-**Aim:** Verify that deadline and event date/time fields are stored and displayed as unparsed strings.
+**Aim:** Verify that valid ISO deadline and event dates are stored as dates and displayed in a friendlier format, including a leap day.
 
 ### Input
 
 ```text
-deadline do homework /by no idea :-p
-event orientation week /from 4/10/2019 /to 11/10/2019
+deadline do homework /by 2028-02-29
+event orientation week /from 2019-10-04 /to 2019-10-11
 list
 bye
 ```
@@ -191,18 +191,18 @@ What can I do for you?
 ____________________________________________________________
 ____________________________________________________________
 Got it. I've added this task:
-  [D][ ] do homework (by: no idea :-p)
+  [D][ ] do homework (by: Feb 29 2028)
 Now you have 1 tasks in the list.
 ____________________________________________________________
 ____________________________________________________________
 Got it. I've added this task:
-  [E][ ] orientation week (from: 4/10/2019 to: 11/10/2019)
+  [E][ ] orientation week (from: Oct 4 2019 to: Oct 11 2019)
 Now you have 2 tasks in the list.
 ____________________________________________________________
 ____________________________________________________________
 Here are the tasks in your list:
-1.[D][ ] do homework (by: no idea :-p)
-2.[E][ ] orientation week (from: 4/10/2019 to: 11/10/2019)
+1.[D][ ] do homework (by: Feb 29 2028)
+2.[E][ ] orientation week (from: Oct 4 2019 to: Oct 11 2019)
 ____________________________________________________________
 ____________________________________________________________
 Bye. Hope to see you again soon!
@@ -239,10 +239,10 @@ ____________________________________________________________
 OOPS!!! A todo needs a description after 'todo'.
 ____________________________________________________________
 ____________________________________________________________
-OOPS!!! A deadline needs a description and '/by' date or time.
+OOPS!!! A deadline needs a description and '/by' date.
 ____________________________________________________________
 ____________________________________________________________
-OOPS!!! An event needs a description, '/from' start, and '/to' end.
+OOPS!!! An event needs a description, '/from' start date, and '/to' end date.
 ____________________________________________________________
 ____________________________________________________________
 OOPS!!! I don't recognize that command. Try todo, deadline, event, list, mark, unmark, delete, or bye.
@@ -254,19 +254,24 @@ ____________________________________________________________
 
 ## TC-6: Reject malformed deadline and event details
 
-**Aim:** Verify that missing descriptions, delimiters, dates, and times produce field-specific errors.
+**Aim:** Verify that missing details, non-ISO dates, impossible dates, and reversed event dates produce field-specific errors.
 
 ### Input
 
 ```text
 deadline submit report
-deadline /by Sunday
+deadline /by 2026-10-10
 deadline submit report /by
+deadline submit report /by Sunday
+deadline impossible date /by 2025-02-29
 event meeting
-event /from Monday /to Tuesday
-event meeting /from /to Tuesday
-event meeting /from Monday
-event meeting /from Monday /to
+event /from 2026-10-10 /to 2026-10-11
+event meeting /from /to 2026-10-11
+event meeting /from 2026-10-10
+event meeting /from 2026-10-10 /to
+event meeting /from Monday /to 2026-10-11
+event meeting /from 2026-10-10 /to Tuesday
+event trip /from 2026-10-12 /to 2026-10-11
 bye
 ```
 
@@ -283,28 +288,43 @@ Hello! I'm Zeus.
 What can I do for you?
 ____________________________________________________________
 ____________________________________________________________
-OOPS!!! A deadline needs a '/by' date or time.
+OOPS!!! A deadline needs a '/by' date.
 ____________________________________________________________
 ____________________________________________________________
 OOPS!!! A deadline needs a description before '/by'.
 ____________________________________________________________
 ____________________________________________________________
-OOPS!!! A deadline needs a date or time after '/by'.
+OOPS!!! A deadline needs a date after '/by'.
 ____________________________________________________________
 ____________________________________________________________
-OOPS!!! An event needs a start date or time after '/from'.
+OOPS!!! The deadline date must use yyyy-MM-dd, for example 2019-10-15.
+____________________________________________________________
+____________________________________________________________
+OOPS!!! The deadline date must use yyyy-MM-dd, for example 2019-10-15.
+____________________________________________________________
+____________________________________________________________
+OOPS!!! An event needs a start date after '/from'.
 ____________________________________________________________
 ____________________________________________________________
 OOPS!!! An event needs a description before '/from'.
 ____________________________________________________________
 ____________________________________________________________
-OOPS!!! An event needs a start date or time after '/from'.
+OOPS!!! An event needs a start date after '/from'.
 ____________________________________________________________
 ____________________________________________________________
-OOPS!!! An event needs an end date or time after '/to'.
+OOPS!!! An event needs an end date after '/to'.
 ____________________________________________________________
 ____________________________________________________________
-OOPS!!! An event needs an end date or time after '/to'.
+OOPS!!! An event needs an end date after '/to'.
+____________________________________________________________
+____________________________________________________________
+OOPS!!! The event start date must use yyyy-MM-dd, for example 2019-10-15.
+____________________________________________________________
+____________________________________________________________
+OOPS!!! The event end date must use yyyy-MM-dd, for example 2019-10-15.
+____________________________________________________________
+____________________________________________________________
+OOPS!!! The event end date cannot be before its start date.
 ____________________________________________________________
 ____________________________________________________________
 Bye. Hope to see you again soon!
@@ -389,8 +409,8 @@ ____________________________________________________________
 
 ```text
 todo read book
-deadline return book /by June 6th
-event project meeting /from Aug 6th 2pm /to 4pm
+deadline return book /by 2026-06-06
+event project meeting /from 2026-08-06 /to 2026-08-07
 todo join sports club
 todo borrow book
 mark 1
@@ -420,12 +440,12 @@ Now you have 1 tasks in the list.
 ____________________________________________________________
 ____________________________________________________________
 Got it. I've added this task:
-  [D][ ] return book (by: June 6th)
+  [D][ ] return book (by: Jun 6 2026)
 Now you have 2 tasks in the list.
 ____________________________________________________________
 ____________________________________________________________
 Got it. I've added this task:
-  [E][ ] project meeting (from: Aug 6th 2pm to: 4pm)
+  [E][ ] project meeting (from: Aug 6 2026 to: Aug 7 2026)
 Now you have 3 tasks in the list.
 ____________________________________________________________
 ____________________________________________________________
@@ -444,7 +464,7 @@ Nice! I've marked this task as done:
 ____________________________________________________________
 ____________________________________________________________
 Nice! I've marked this task as done:
-  [D][X] return book (by: June 6th)
+  [D][X] return book (by: Jun 6 2026)
 ____________________________________________________________
 ____________________________________________________________
 Nice! I've marked this task as done:
@@ -452,13 +472,13 @@ Nice! I've marked this task as done:
 ____________________________________________________________
 ____________________________________________________________
 Noted. I've removed this task:
-  [E][ ] project meeting (from: Aug 6th 2pm to: 4pm)
+  [E][ ] project meeting (from: Aug 6 2026 to: Aug 7 2026)
 Now you have 4 tasks in the list.
 ____________________________________________________________
 ____________________________________________________________
 Here are the tasks in your list:
 1.[T][X] read book
-2.[D][X] return book (by: June 6th)
+2.[D][X] return book (by: Jun 6 2026)
 3.[T][X] join sports club
 4.[T][ ] borrow book
 ____________________________________________________________
@@ -533,8 +553,8 @@ ____________________________________________________________
 
 ```text
 todo read book
-deadline return book /by June 6th
-event project meeting /from Aug 6th 2pm /to 4pm
+deadline return book /by 2026-06-06
+event project meeting /from 2026-08-06 /to 2026-08-07
 mark 1
 delete 2
 bye
@@ -559,12 +579,12 @@ Now you have 1 tasks in the list.
 ____________________________________________________________
 ____________________________________________________________
 Got it. I've added this task:
-  [D][ ] return book (by: June 6th)
+  [D][ ] return book (by: Jun 6 2026)
 Now you have 2 tasks in the list.
 ____________________________________________________________
 ____________________________________________________________
 Got it. I've added this task:
-  [E][ ] project meeting (from: Aug 6th 2pm to: 4pm)
+  [E][ ] project meeting (from: Aug 6 2026 to: Aug 7 2026)
 Now you have 3 tasks in the list.
 ____________________________________________________________
 ____________________________________________________________
@@ -573,7 +593,7 @@ Nice! I've marked this task as done:
 ____________________________________________________________
 ____________________________________________________________
 Noted. I've removed this task:
-  [D][ ] return book (by: June 6th)
+  [D][ ] return book (by: Jun 6 2026)
 Now you have 2 tasks in the list.
 ____________________________________________________________
 ____________________________________________________________
@@ -585,7 +605,7 @@ ____________________________________________________________
 
 ```text
 T | 1 | read book
-E | 0 | project meeting | Aug 6th 2pm | 4pm
+E | 0 | project meeting | 2026-08-06 | 2026-08-07
 ```
 
 ## TC-11: Load all saved task types
@@ -596,8 +616,8 @@ E | 0 | project meeting | Aug 6th 2pm | 4pm
 
 ```text
 T | 1 | read book
-D | 0 | return book | June 6th
-E | 1 | project meeting | Aug 6th 2pm | 4pm
+D | 0 | return book | 2026-06-06
+E | 1 | project meeting | 2026-08-06 | 2026-08-07
 ```
 
 ### Input
@@ -622,8 +642,8 @@ ____________________________________________________________
 ____________________________________________________________
 Here are the tasks in your list:
 1.[T][X] read book
-2.[D][ ] return book (by: June 6th)
-3.[E][X] project meeting (from: Aug 6th 2pm to: 4pm)
+2.[D][ ] return book (by: Jun 6 2026)
+3.[E][X] project meeting (from: Aug 6 2026 to: Aug 7 2026)
 ____________________________________________________________
 ____________________________________________________________
 Bye. Hope to see you again soon!
@@ -634,8 +654,8 @@ ____________________________________________________________
 
 ```text
 T | 1 | read book
-D | 0 | return book | June 6th
-E | 1 | project meeting | Aug 6th 2pm | 4pm
+D | 0 | return book | 2026-06-06
+E | 1 | project meeting | 2026-08-06 | 2026-08-07
 ```
 
 ## TC-12: Start without a data file
@@ -683,8 +703,10 @@ D | 2 | bad status | Monday
 D | 0 | | Monday
 D | 0 | missing by
 D | 0 | no date |
-E | 0 | valid event | Monday | Tuesday
-E | 0 | missing end | Monday |
+E | 0 | valid event | 2026-09-07 | 2026-09-08
+E | 0 | missing end | 2026-09-07 |
+D | 0 | impossible deadline | 2025-02-29
+E | 0 | backwards | 2026-09-08 | 2026-09-07
 T | 0 | bad \q escape
 T | 0 | trailing \
 garbage
@@ -716,14 +738,16 @@ OOPS!!! Saved data line 5 was ignored: The task description is empty.
 OOPS!!! Saved data line 6 was ignored: Task type 'D' needs 4 fields, but this record has 3.
 OOPS!!! Saved data line 7 was ignored: The deadline's '/by' value is empty.
 OOPS!!! Saved data line 9 was ignored: The event's '/to' value is empty.
-OOPS!!! Saved data line 10 was ignored: Invalid escape sequence '\q'.
-OOPS!!! Saved data line 11 was ignored: The record ends with an incomplete escape sequence.
-OOPS!!! Saved data line 12 was ignored: A record needs a task type and completion status.
+OOPS!!! Saved data line 10 was ignored: The deadline date must use yyyy-MM-dd, for example 2019-10-15.
+OOPS!!! Saved data line 11 was ignored: The event end date cannot be before its start date.
+OOPS!!! Saved data line 12 was ignored: Invalid escape sequence '\q'.
+OOPS!!! Saved data line 13 was ignored: The record ends with an incomplete escape sequence.
+OOPS!!! Saved data line 14 was ignored: A record needs a task type and completion status.
 ____________________________________________________________
 ____________________________________________________________
 Here are the tasks in your list:
 1.[T][X] valid todo
-2.[E][ ] valid event (from: Monday to: Tuesday)
+2.[E][ ] valid event (from: Sep 7 2026 to: Sep 8 2026)
 ____________________________________________________________
 ____________________________________________________________
 Got it. I've added this task:
@@ -739,7 +763,7 @@ ____________________________________________________________
 
 ```text
 T | 1 | valid todo
-E | 0 | valid event | Monday | Tuesday
+E | 0 | valid event | 2026-09-07 | 2026-09-08
 T | 0 | recovered task
 ```
 
@@ -751,7 +775,7 @@ T | 0 | recovered task
 
 ```text
 T | 0 | compare A \| B
-D | 1 | use path | C:\\Temp
+T | 1 | use path C:\\Temp
 ```
 
 ### Input
@@ -777,7 +801,7 @@ ____________________________________________________________
 ____________________________________________________________
 Here are the tasks in your list:
 1.[T][ ] compare A | B
-2.[D][X] use path (by: C:\Temp)
+2.[T][X] use path C:\Temp
 ____________________________________________________________
 ____________________________________________________________
 Got it. I've added this task:
@@ -793,6 +817,6 @@ ____________________________________________________________
 
 ```text
 T | 0 | compare A \| B
-D | 1 | use path | C:\\Temp
+T | 1 | use path C:\\Temp
 T | 0 | back up C:\\Temp \| archive
 ```
