@@ -1,3 +1,10 @@
+package zeus.command;
+
+import zeus.exception.ZeusException;
+import zeus.storage.Storage;
+import zeus.task.TaskList;
+import zeus.ui.Ui;
+
 /* Represents an operation that Zeus can execute. */
 public abstract class Command {
     /*

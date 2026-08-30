@@ -1,3 +1,11 @@
+package zeus.command;
+
+import zeus.exception.ZeusException;
+import zeus.storage.Storage;
+import zeus.task.Task;
+import zeus.task.TaskList;
+import zeus.ui.Ui;
+
 /* Adds a parsed task to the task list. */
 public class AddCommand extends Command {
     /* Task to add when this command executes. */

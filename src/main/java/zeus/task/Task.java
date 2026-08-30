@@ -1,3 +1,5 @@
+package zeus.task;
+
 /* Represents a task and whether it has been completed. */
 public class Task {
     protected String description;

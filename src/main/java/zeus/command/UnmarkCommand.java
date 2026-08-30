@@ -1,3 +1,11 @@
+package zeus.command;
+
+import zeus.exception.ZeusException;
+import zeus.storage.Storage;
+import zeus.task.Task;
+import zeus.task.TaskList;
+import zeus.ui.Ui;
+
 /* Marks a numbered task as incomplete. */
 public class UnmarkCommand extends Command {
     /* One-based number of the task to unmark. */

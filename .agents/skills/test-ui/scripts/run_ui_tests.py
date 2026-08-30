@@ -135,9 +135,9 @@ def run_tests(repo_root: Path, plan_path: Path) -> int:
     """Compile the application and execute all plan cases fail-fast."""
     cases = parse_plan(plan_path)
     javac, java = find_java_tools()
-    source_files = sorted((repo_root / "src/main/java").glob("*.java"))
+    source_files = sorted((repo_root / "src/main/java").rglob("*.java"))
     if not source_files:
-        raise RuntimeError("No Java source files found in src/main/java")
+        raise RuntimeError("No Java source files found under src/main/java")
 
     with tempfile.TemporaryDirectory(prefix="zeus-ui-test-") as build_directory:
         compile_result = subprocess.run(
@@ -171,7 +171,7 @@ def run_tests(repo_root: Path, plan_path: Path) -> int:
                     data_file.write_text("\n".join(initial_data) + "\n", encoding="utf-8")
 
                 result = subprocess.run(
-                    [str(java), "-cp", build_directory, "Zeus"],
+                    [str(java), "-cp", build_directory, "zeus.Zeus"],
                     cwd=case_directory,
                     input="\n".join(commands) + "\n",
                     capture_output=True,

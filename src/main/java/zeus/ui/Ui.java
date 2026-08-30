@@ -1,3 +1,7 @@
+package zeus.ui;
+
+import zeus.task.Task;
+
 import java.util.List;
 import java.util.Scanner;
 

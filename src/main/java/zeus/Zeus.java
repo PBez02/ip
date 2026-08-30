@@ -1,3 +1,12 @@
+package zeus;
+
+import zeus.command.Command;
+import zeus.exception.ZeusException;
+import zeus.parser.Parser;
+import zeus.storage.Storage;
+import zeus.task.TaskList;
+import zeus.ui.Ui;
+
 import java.util.ArrayList;
 import java.util.List;
 

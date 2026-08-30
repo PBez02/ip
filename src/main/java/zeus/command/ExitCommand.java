@@ -1,3 +1,9 @@
+package zeus.command;
+
+import zeus.storage.Storage;
+import zeus.task.TaskList;
+import zeus.ui.Ui;
+
 /* Ends the current Zeus session. */
 public class ExitCommand extends Command {
     /*

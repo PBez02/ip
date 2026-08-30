@@ -1,3 +1,7 @@
+package zeus.task;
+
+import zeus.exception.ZeusException;
+
 import java.util.ArrayList;
 import java.util.List;
 

@@ -1,3 +1,5 @@
+package zeus.task;
+
 /* Represents a task without an associated date or time. */
 public class Todo extends Task {
     /*

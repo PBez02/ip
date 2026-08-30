@@ -1,3 +1,5 @@
+package zeus.exception;
+
 /* Represents an invalid command or operation reported by Zeus. */
 public class ZeusException extends Exception {
     /*
