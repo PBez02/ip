@@ -6,12 +6,12 @@ import zeus.task.Task;
 import zeus.task.TaskList;
 import zeus.ui.Ui;
 
-/* Deletes a numbered task from the task list. */
+/** Deletes a numbered task from the task list. */
 public class DeleteCommand extends Command {
-    /* One-based number of the task to delete. */
+    /** One-based number of the task to delete. */
     private final int taskNumber;
 
-    /*
+    /**
      * Creates a command for the selected task number.
      * @param taskNumber one-based task number
      */
@@ -19,7 +19,7 @@ public class DeleteCommand extends Command {
         this.taskNumber = taskNumber;
     }
 
-    /*
+    /**
      * Deletes and saves the task, then displays a confirmation.
      * @param tasks task collection to update
      * @param ui console interface used to display the result

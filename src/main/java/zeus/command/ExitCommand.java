@@ -4,9 +4,13 @@ import zeus.storage.Storage;
 import zeus.task.TaskList;
 import zeus.ui.Ui;
 
-/* Ends the current Zeus session. */
+/** Ends the current Zeus session. */
 public class ExitCommand extends Command {
-    /*
+    /** Creates an exit command. */
+    public ExitCommand() {
+    }
+
+    /**
      * Displays Zeus's farewell message.
      * @param tasks task collection, which is not changed
      * @param ui console interface used to display the farewell
@@ -17,7 +21,7 @@ public class ExitCommand extends Command {
         ui.showGoodbye();
     }
 
-    /*
+    /**
      * Signals that the command loop should stop.
      * @return true
      */

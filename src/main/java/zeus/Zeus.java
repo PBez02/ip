@@ -10,18 +10,18 @@ import zeus.ui.Ui;
 import java.util.ArrayList;
 import java.util.List;
 
-/* Coordinates the components of the Zeus chatbot application. */
+/** Coordinates the components of the Zeus chatbot application. */
 public class Zeus {
-    /* Component responsible for console interaction. */
+    /** Component responsible for console interaction. */
     private final Ui ui;
 
-    /* Component responsible for persistent task storage. */
+    /** Component responsible for persistent task storage. */
     private final Storage storage;
 
-    /* In-memory task collection used during this session. */
+    /** In-memory task collection used during this session. */
     private TaskList tasks;
 
-    /*
+    /**
      * Creates Zeus using the specified task data file.
      * @param filePath path of the task data file
      */
@@ -31,7 +31,7 @@ public class Zeus {
         tasks = new TaskList();
     }
 
-    /* Loads saved tasks and runs the command loop until the user exits or input ends. */
+    /** Loads saved tasks and runs the command loop until the user exits or input ends. */
     public void run() {
         ui.showWelcome();
 
@@ -56,7 +56,7 @@ public class Zeus {
         }
     }
 
-    /*
+    /**
      * Starts Zeus with its project-relative data file.
      * @param args command-line arguments, which are not used
      */
