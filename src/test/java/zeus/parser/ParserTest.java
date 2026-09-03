@@ -13,6 +13,7 @@ import org.junit.jupiter.api.io.TempDir;
 import zeus.command.AddCommand;
 import zeus.command.DeleteCommand;
 import zeus.command.ExitCommand;
+import zeus.command.FindCommand;
 import zeus.command.ListCommand;
 import zeus.command.MarkCommand;
 import zeus.command.UnmarkCommand;
@@ -31,6 +32,7 @@ public class ParserTest {
     public void parse_supportedCommands_returnsCorrectCommandTypes() throws ZeusException {
         assertInstanceOf(ExitCommand.class, Parser.parse("bye"));
         assertInstanceOf(ListCommand.class, Parser.parse("list"));
+        assertInstanceOf(FindCommand.class, Parser.parse("find book"));
         assertInstanceOf(MarkCommand.class, Parser.parse("mark 1"));
         assertInstanceOf(UnmarkCommand.class, Parser.parse("unmark 1"));
         assertInstanceOf(DeleteCommand.class, Parser.parse("delete 1"));
@@ -64,11 +66,17 @@ public class ParserTest {
     @Test
     public void parse_unknownOrPartialCommand_exceptionThrown() {
         assertParseError("", "I don't recognize that command. Try todo, deadline, event, "
-                + "list, mark, unmark, delete, or bye.");
+                + "list, find, mark, unmark, delete, or bye.");
         assertParseError("blah", "I don't recognize that command. Try todo, deadline, event, "
-                + "list, mark, unmark, delete, or bye.");
+                + "list, find, mark, unmark, delete, or bye.");
         assertParseError("marking 1", "I don't recognize that command. Try todo, deadline, "
-                + "event, list, mark, unmark, delete, or bye.");
+                + "event, list, find, mark, unmark, delete, or bye.");
+    }
+
+    @Test
+    public void parse_findWithEmptyKeyword_exceptionThrown() {
+        assertParseError("find", "Tell me what to find, for example 'find book'.");
+        assertParseError("find   ", "Tell me what to find, for example 'find book'.");
     }
 
     @Test

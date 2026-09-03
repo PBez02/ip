@@ -65,6 +65,19 @@ public class TaskListTest {
     }
 
     @Test
+    public void find_keywordInDescription_returnsMatchingTasksInOriginalOrder() {
+        Task firstMatch = new Todo("read book");
+        Task nonMatch = new Todo("buy bread");
+        Task secondMatch = new Todo("return book");
+        TaskList tasks = new TaskList(List.of(firstMatch, nonMatch, secondMatch));
+
+        List<Task> matchingTasks = tasks.find("book");
+
+        assertEquals(List.of(firstMatch, secondMatch), matchingTasks);
+        assertEquals(List.of(), tasks.find("missing"));
+    }
+
+    @Test
     public void numberedOperations_emptyList_exceptionThrown() {
         TaskList tasks = new TaskList();
 

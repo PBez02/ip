@@ -219,6 +219,7 @@ ____________________________________________________________
 todo
 deadline
 event
+find
 blah
 bye
 ```
@@ -245,7 +246,10 @@ ____________________________________________________________
 OOPS!!! An event needs a description, '/from' start date, and '/to' end date.
 ____________________________________________________________
 ____________________________________________________________
-OOPS!!! I don't recognize that command. Try todo, deadline, event, list, mark, unmark, delete, or bye.
+OOPS!!! Tell me what to find, for example 'find book'.
+____________________________________________________________
+____________________________________________________________
+OOPS!!! I don't recognize that command. Try todo, deadline, event, list, find, mark, unmark, delete, or bye.
 ____________________________________________________________
 ____________________________________________________________
 Bye. Hope to see you again soon!
@@ -819,4 +823,62 @@ ____________________________________________________________
 T | 0 | compare A \| B
 T | 1 | use path C:\\Temp
 T | 0 | back up C:\\Temp \| archive
+```
+
+## TC-15: Find tasks by description keyword
+
+**Aim:** Verify that `find KEYWORD` displays only matching tasks in their original order, renumbers each result set, leaves an empty result readable, and does not modify stored tasks.
+
+### Initial data file
+
+```text
+T | 1 | read book
+D | 0 | return book | 2026-06-06
+E | 1 | project meeting | 2026-08-06 | 2026-08-07
+```
+
+### Input
+
+```text
+find book
+find meeting
+find missing
+bye
+```
+
+### Expected output
+
+```text
+____________________________________________________________
+ _____
+|__  /___ _   _ ___
+  / // _ \ | | / __|
+ / /|  __/ |_| \__ \
+/____\___|\__,_|___/
+Hello! I'm Zeus.
+What can I do for you?
+____________________________________________________________
+____________________________________________________________
+Here are the matching tasks in your list:
+1.[T][X] read book
+2.[D][ ] return book (by: Jun 6 2026)
+____________________________________________________________
+____________________________________________________________
+Here are the matching tasks in your list:
+1.[E][X] project meeting (from: Aug 6 2026 to: Aug 7 2026)
+____________________________________________________________
+____________________________________________________________
+Here are the matching tasks in your list:
+____________________________________________________________
+____________________________________________________________
+Bye. Hope to see you again soon!
+____________________________________________________________
+```
+
+### Expected data file
+
+```text
+T | 1 | read book
+D | 0 | return book | 2026-06-06
+E | 1 | project meeting | 2026-08-06 | 2026-08-07
 ```
