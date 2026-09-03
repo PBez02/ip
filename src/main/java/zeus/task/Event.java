@@ -10,6 +10,8 @@ public class Event extends Task {
     private static final DateTimeFormatter DISPLAY_DATE_FORMAT =
             DateTimeFormatter.ofPattern("MMM d yyyy", Locale.ENGLISH);
 
+    private final LocalDate startDate;
+    private final LocalDate endDate;
     /** Date on which this event starts. */
     protected LocalDate from;
 
@@ -19,13 +21,13 @@ public class Event extends Task {
     /**
      * Creates an incomplete event task.
      * @param description description of the event
-     * @param from date on which the event starts
-     * @param to date on which the event ends
+     * @param startDate date on which the event starts
+     * @param endDate date on which the event ends
      */
-    public Event(String description, LocalDate from, LocalDate to) {
+    public Event(String description, LocalDate startDate, LocalDate endDate) {
         super(description);
-        this.from = from;
-        this.to = to;
+        this.startDate = startDate;
+        this.endDate = endDate;
     }
 
     /**
@@ -34,7 +36,7 @@ public class Event extends Task {
      */
     @Override
     public String toDataString() {
-        return "E | " + super.toDataString() + " | " + from + " | " + to;
+        return "E | " + super.toDataString() + " | " + startDate + " | " + endDate;
     }
 
     /**
@@ -43,7 +45,7 @@ public class Event extends Task {
      */
     @Override
     public String toString() {
-        return "[E]" + super.toString() + " (from: " + from.format(DISPLAY_DATE_FORMAT)
-                + " to: " + to.format(DISPLAY_DATE_FORMAT) + ")";
+        return "[E]" + super.toString() + " (from: " + startDate.format(DISPLAY_DATE_FORMAT)
+                + " to: " + endDate.format(DISPLAY_DATE_FORMAT) + ")";
     }
 }

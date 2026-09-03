@@ -1,9 +1,8 @@
 package zeus.ui;
 
-import zeus.task.Task;
-
 import java.util.List;
 import java.util.Scanner;
+import zeus.task.Task;
 
 /** Handles all console input and output for the Zeus chatbot. */
 public class Ui {

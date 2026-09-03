@@ -30,9 +30,17 @@ Ensure that Java 25 is used when running the application or build tasks. On macO
 
 ## Git
 
-Use lightweight tags unless the user requests an annotated tag.
-When proposing or creating a commit message, include enough detail to explain the rationale for the change.
-Do not commit or push unless explicitly asked.
+When suggesting tag commands, use lightweight tags unless the user requests an annotated tag.
+When proposing or reviewing commit messages and branch names, follow the project-specific
+`seedu-git-standard` skill in `.agents/skills/seedu-git-standard`.
+Never create commits, tags, or pushes in this repository. The user performs all Git publication
+and history-writing actions.
+
+## Java coding standard
+
+For every Java code change or review, follow the project-specific `seedu-java-coding-standard`
+skill in `.agents/skills/seedu-java-coding-standard`. New Java code and relevant existing code
+must comply with the SE-EDU basic and intermediate Java coding standard.
 
 ## Text UI testing
 

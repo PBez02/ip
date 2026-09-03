@@ -1,5 +1,8 @@
 package zeus;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import zeus.command.Command;
 import zeus.exception.ZeusException;
 import zeus.parser.Parser;
@@ -7,10 +10,7 @@ import zeus.storage.Storage;
 import zeus.task.TaskList;
 import zeus.ui.Ui;
 
-import java.util.ArrayList;
-import java.util.List;
-
-/** Coordinates the components of the Zeus chatbot application. */
+/* Coordinates the components of the Zeus chatbot application. */
 public class Zeus {
     /** Component responsible for console interaction. */
     private final Ui ui;

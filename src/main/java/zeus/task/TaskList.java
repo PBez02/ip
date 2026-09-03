@@ -1,9 +1,8 @@
 package zeus.task;
 
-import zeus.exception.ZeusException;
-
 import java.util.ArrayList;
 import java.util.List;
+import zeus.exception.ZeusException;
 
 /** Owns the in-memory task collection and its list operations. */
 public class TaskList {
