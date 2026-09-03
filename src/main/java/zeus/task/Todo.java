@@ -1,8 +1,8 @@
 package zeus.task;
 
-/* Represents a task without an associated date or time. */
+/** Represents a task without an associated date or time. */
 public class Todo extends Task {
-    /*
+    /**
      * Creates an incomplete to-do task.
      * @param description description of the task
      */
@@ -10,7 +10,7 @@ public class Todo extends Task {
         super(description);
     }
 
-    /*
+    /**
      * Returns this to-do in the format stored on disk.
      * @return serialized to-do task
      */
@@ -19,7 +19,7 @@ public class Todo extends Task {
         return "T | " + super.toDataString();
     }
 
-    /*
+    /**
      * Returns this task with its to-do type icon.
      * @return formatted to-do task
      */

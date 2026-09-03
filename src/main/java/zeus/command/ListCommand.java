@@ -4,9 +4,13 @@ import zeus.storage.Storage;
 import zeus.task.TaskList;
 import zeus.ui.Ui;
 
-/* Displays every task in the task list. */
+/** Displays every task in the task list. */
 public class ListCommand extends Command {
-    /*
+    /** Creates a list command. */
+    public ListCommand() {
+    }
+
+    /**
      * Displays the tasks without changing or saving them.
      * @param tasks task collection to display
      * @param ui console interface used to display the tasks

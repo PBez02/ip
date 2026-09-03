@@ -15,12 +15,12 @@ import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
 
-/* Loads tasks from disk and saves the current task list. */
+/** Loads tasks from disk and saves the current task list. */
 public class Storage {
-    /* File used to persist tasks between Zeus sessions. */
+    /** File used to persist tasks between Zeus sessions. */
     private final Path dataFile;
 
-    /*
+    /**
      * Creates storage backed by the specified file.
      * @param filePath path of the task data file
      */
@@ -28,7 +28,7 @@ public class Storage {
         dataFile = Path.of(filePath);
     }
 
-    /*
+    /**
      * Loads all valid tasks and records recoverable problems as warnings.
      * @param warnings destination for user-friendly loading warnings
      * @return valid tasks in saved order, or an empty list when no file is available
@@ -67,7 +67,7 @@ public class Storage {
         return tasks;
     }
 
-    /*
+    /**
      * Writes the current task list to disk, replacing the old file contents.
      * @param tasks tasks to save
      * @throws ZeusException if the data directory or file cannot be written
@@ -89,7 +89,7 @@ public class Storage {
         }
     }
 
-    /*
+    /**
      * Splits a saved line at unescaped pipe characters and unescapes its fields.
      * @param line saved task record
      * @return fields contained in the record
@@ -125,7 +125,7 @@ public class Storage {
         return fields;
     }
 
-    /*
+    /**
      * Converts one validated data-file record into a task.
      * @param line saved task record
      * @return task represented by the record
@@ -161,7 +161,7 @@ public class Storage {
         return task;
     }
 
-    /*
+    /**
      * Returns the required field count for a serialized task type.
      * @param taskType serialized task type icon
      * @return required number of fields
@@ -176,7 +176,7 @@ public class Storage {
         };
     }
 
-    /*
+    /**
      * Creates the appropriate task subtype from validated saved fields.
      * @param taskType serialized task type icon
      * @param description task description
@@ -209,7 +209,7 @@ public class Storage {
         return new Event(description, fromDate, toDate);
     }
 
-    /*
+    /**
      * Parses an ISO date stored in the data file.
      * @param dateText saved date text
      * @param fieldName name used to identify an invalid field
@@ -225,7 +225,7 @@ public class Storage {
         }
     }
 
-    /*
+    /**
      * Ensures that a saved event does not finish before it starts.
      * @param from start date
      * @param to end date

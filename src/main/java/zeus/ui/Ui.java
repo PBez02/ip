@@ -5,28 +5,28 @@ import zeus.task.Task;
 import java.util.List;
 import java.util.Scanner;
 
-/* Handles all console input and output for the Zeus chatbot. */
+/** Handles all console input and output for the Zeus chatbot. */
 public class Ui {
-    /* Visual boundary used between commands and responses. */
+    /** Visual boundary used between commands and responses. */
     private static final String SEPARATOR =
             "____________________________________________________________";
 
-    /* Name banner displayed when Zeus starts. */
+    /** Name banner displayed when Zeus starts. */
     private static final String BANNER = " _____\n"
             + "|__  /___ _   _ ___\n"
             + "  / // _ \\ | | / __|\n"
             + " / /|  __/ |_| \\__ \\\n"
             + "/____\\___|\\__,_|___/\n";
 
-    /* Source of commands entered by the user. */
+    /** Source of commands entered by the user. */
     private final Scanner scanner;
 
-    /* Creates a console UI that reads from standard input. */
+    /** Creates a console UI that reads from standard input. */
     public Ui() {
         scanner = new Scanner(System.in);
     }
 
-    /* Displays Zeus's banner and greeting. */
+    /** Displays Zeus's banner and greeting. */
     public void showWelcome() {
         System.out.println(SEPARATOR);
         System.out.print(BANNER);
@@ -35,7 +35,7 @@ public class Ui {
         System.out.println(SEPARATOR);
     }
 
-    /*
+    /**
      * Reports whether another command is available.
      * @return true when another input line can be read
      */
@@ -43,7 +43,7 @@ public class Ui {
         return scanner.hasNextLine();
     }
 
-    /*
+    /**
      * Reads the next command and displays the response boundary.
      * @return trimmed command entered by the user
      */
@@ -53,7 +53,7 @@ public class Ui {
         return command;
     }
 
-    /*
+    /**
      * Displays recoverable problems found while loading saved tasks.
      * @param warnings loading warning messages
      */
@@ -66,7 +66,7 @@ public class Ui {
         }
     }
 
-    /*
+    /**
      * Displays all tasks in their current order.
      * @param tasks tasks to display
      */
@@ -77,7 +77,7 @@ public class Ui {
         }
     }
 
-    /*
+    /**
      * Confirms that a task was marked as done.
      * @param task task whose status changed
      */
@@ -86,7 +86,7 @@ public class Ui {
         System.out.println("  " + task);
     }
 
-    /*
+    /**
      * Confirms that a task was marked as not done.
      * @param task task whose status changed
      */
@@ -95,7 +95,7 @@ public class Ui {
         System.out.println("  " + task);
     }
 
-    /*
+    /**
      * Confirms that a task was removed.
      * @param task task that was removed
      * @param taskCount number of remaining tasks
@@ -106,7 +106,7 @@ public class Ui {
         System.out.println("Now you have " + taskCount + " tasks in the list.");
     }
 
-    /*
+    /**
      * Confirms that a task was added.
      * @param task task that was added
      * @param taskCount number of stored tasks
@@ -117,7 +117,7 @@ public class Ui {
         System.out.println("Now you have " + taskCount + " tasks in the list.");
     }
 
-    /*
+    /**
      * Displays a user-friendly error message.
      * @param message explanation of the error
      */
@@ -125,13 +125,13 @@ public class Ui {
         System.out.println("OOPS!!! " + message);
     }
 
-    /* Displays Zeus's farewell and closes the final response boundary. */
+    /** Displays Zeus's farewell and closes the final response boundary. */
     public void showGoodbye() {
         System.out.println("Bye. Hope to see you again soon!");
         System.out.println(SEPARATOR);
     }
 
-    /* Closes the response boundary for a completed command. */
+    /** Closes the response boundary for a completed command. */
     public void showResponseEnd() {
         System.out.println(SEPARATOR);
     }

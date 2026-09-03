@@ -16,13 +16,13 @@ import zeus.task.Todo;
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 
-/* Converts user input into executable commands. */
+/** Converts user input into executable commands. */
 public final class Parser {
-    /* Prevents creation of a stateless parser object. */
+    /** Prevents creation of a stateless parser object. */
     private Parser() {
     }
 
-    /*
+    /**
      * Parses a full input line into the corresponding command object.
      * @param fullCommand command entered by the user
      * @return command ready to execute
@@ -49,7 +49,7 @@ public final class Parser {
         );
     }
 
-    /*
+    /**
      * Reports whether input begins with the specified numbered command word.
      * @param fullCommand full user input
      * @param commandWord command word to recognize
@@ -59,7 +59,7 @@ public final class Parser {
         return fullCommand.equals(commandWord) || fullCommand.startsWith(commandWord + " ");
     }
 
-    /*
+    /**
      * Reports whether input requests creation of a supported task type.
      * @param fullCommand full user input
      * @return true for todo, deadline, or event input
@@ -70,7 +70,7 @@ public final class Parser {
                 || fullCommand.equals("event") || fullCommand.startsWith("event ");
     }
 
-    /*
+    /**
      * Converts a task-creation command into the corresponding task subtype.
      * @param fullCommand command entered by the user
      * @return task represented by the command
@@ -96,7 +96,7 @@ public final class Parser {
         return parseEvent(fullCommand);
     }
 
-    /*
+    /**
      * Parses a deadline command after its command word has been recognized.
      * @param fullCommand full deadline command
      * @return parsed deadline
@@ -119,7 +119,7 @@ public final class Parser {
         return new Deadline(description, parseDate(by, "deadline"));
     }
 
-    /*
+    /**
      * Parses an event command after its command word has been recognized.
      * @param fullCommand full event command
      * @return parsed event
@@ -154,7 +154,7 @@ public final class Parser {
         return new Event(description, fromDate, toDate);
     }
 
-    /*
+    /**
      * Extracts the one-based task number from a numbered command.
      * @param fullCommand command entered by the user
      * @param commandWord command word being parsed
@@ -176,7 +176,7 @@ public final class Parser {
         }
     }
 
-    /*
+    /**
      * Parses a date written in the ISO {@code yyyy-MM-dd} format.
      * @param dateText date entered by the user
      * @param fieldName name used to identify an invalid field
@@ -192,7 +192,7 @@ public final class Parser {
         }
     }
 
-    /*
+    /**
      * Ensures that an event does not finish before it starts.
      * @param from start date
      * @param to end date

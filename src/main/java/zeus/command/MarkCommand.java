@@ -6,12 +6,12 @@ import zeus.task.Task;
 import zeus.task.TaskList;
 import zeus.ui.Ui;
 
-/* Marks a numbered task as completed. */
+/** Marks a numbered task as completed. */
 public class MarkCommand extends Command {
-    /* One-based number of the task to mark. */
+    /** One-based number of the task to mark. */
     private final int taskNumber;
 
-    /*
+    /**
      * Creates a command for the selected task number.
      * @param taskNumber one-based task number
      */
@@ -19,7 +19,7 @@ public class MarkCommand extends Command {
         this.taskNumber = taskNumber;
     }
 
-    /*
+    /**
      * Marks and saves the task, then displays a confirmation.
      * @param tasks task collection to update
      * @param ui console interface used to display the result

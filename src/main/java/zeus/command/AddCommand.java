@@ -6,12 +6,12 @@ import zeus.task.Task;
 import zeus.task.TaskList;
 import zeus.ui.Ui;
 
-/* Adds a parsed task to the task list. */
+/** Adds a parsed task to the task list. */
 public class AddCommand extends Command {
-    /* Task to add when this command executes. */
+    /** Task to add when this command executes. */
     private final Task task;
 
-    /*
+    /**
      * Creates a command for the specified task.
      * @param task task to add
      */
@@ -19,7 +19,7 @@ public class AddCommand extends Command {
         this.task = task;
     }
 
-    /*
+    /**
      * Adds and saves the task, then displays a confirmation.
      * @param tasks task collection to update
      * @param ui console interface used to display the result

@@ -5,17 +5,17 @@ import zeus.exception.ZeusException;
 import java.util.ArrayList;
 import java.util.List;
 
-/* Owns the in-memory task collection and its list operations. */
+/** Owns the in-memory task collection and its list operations. */
 public class TaskList {
-    /* Tasks stored in their display order. */
+    /** Tasks stored in their display order. */
     private final List<Task> tasks;
 
-    /* Creates an empty task list. */
+    /** Creates an empty task list. */
     public TaskList() {
         tasks = new ArrayList<>();
     }
 
-    /*
+    /**
      * Creates a task list containing the supplied tasks in order.
      * @param initialTasks tasks with which to initialize the list
      */
@@ -23,7 +23,7 @@ public class TaskList {
         tasks = new ArrayList<>(initialTasks);
     }
 
-    /*
+    /**
      * Adds a task to the end of the list.
      * @param task task to add
      */
@@ -31,7 +31,7 @@ public class TaskList {
         tasks.add(task);
     }
 
-    /*
+    /**
      * Deletes and returns a numbered task.
      * @param taskNumber one-based task number
      * @return removed task
@@ -42,7 +42,7 @@ public class TaskList {
         return tasks.remove(taskNumber - 1);
     }
 
-    /*
+    /**
      * Marks and returns a numbered task.
      * @param taskNumber one-based task number
      * @return updated task
@@ -54,7 +54,7 @@ public class TaskList {
         return task;
     }
 
-    /*
+    /**
      * Unmarks and returns a numbered task.
      * @param taskNumber one-based task number
      * @return updated task
@@ -66,7 +66,7 @@ public class TaskList {
         return task;
     }
 
-    /*
+    /**
      * Returns a read-only snapshot of the tasks.
      * @return tasks in their current order
      */
@@ -74,7 +74,7 @@ public class TaskList {
         return List.copyOf(tasks);
     }
 
-    /*
+    /**
      * Returns the number of stored tasks.
      * @return task count
      */
@@ -82,7 +82,7 @@ public class TaskList {
         return tasks.size();
     }
 
-    /*
+    /**
      * Returns a numbered task after validating the number.
      * @param taskNumber one-based task number
      * @return selected task
@@ -93,7 +93,7 @@ public class TaskList {
         return tasks.get(taskNumber - 1);
     }
 
-    /*
+    /**
      * Validates that a one-based task number identifies a stored task.
      * @param taskNumber number to validate
      * @throws ZeusException if the list is empty or the number is outside it
