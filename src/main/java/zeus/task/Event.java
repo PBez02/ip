@@ -12,11 +12,6 @@ public class Event extends Task {
 
     private final LocalDate startDate;
     private final LocalDate endDate;
-    /** Date on which this event starts. */
-    protected LocalDate from;
-
-    /** Date on which this event ends. */
-    protected LocalDate to;
 
     /**
      * Creates an incomplete event task.

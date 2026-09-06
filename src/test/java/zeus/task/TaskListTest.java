@@ -27,8 +27,8 @@ public class TaskListTest {
 
         assertEquals(List.of(first, second), snapshot);
         assertEquals(3, tasks.size());
-        assertThrows(UnsupportedOperationException.class,
-                () -> snapshot.add(new Todo("not allowed")));
+        assertThrows(UnsupportedOperationException.class, () ->
+                snapshot.add(new Todo("not allowed")));
     }
 
     @Test
@@ -90,12 +90,12 @@ public class TaskListTest {
     public void numberedOperations_outOfRange_exceptionThrown() {
         TaskList tasks = new TaskList(List.of(new Todo("only task")));
 
-        assertZeusException("There is no task number 0. Choose a number from 1 to 1.",
-                () -> tasks.mark(0));
-        assertZeusException("There is no task number 2. Choose a number from 1 to 1.",
-                () -> tasks.unmark(2));
-        assertZeusException("There is no task number -1. Choose a number from 1 to 1.",
-                () -> tasks.delete(-1));
+        assertZeusException("There is no task number 0. Choose a number from 1 to 1.", () ->
+                tasks.mark(0));
+        assertZeusException("There is no task number 2. Choose a number from 1 to 1.", () ->
+                tasks.unmark(2));
+        assertZeusException("There is no task number -1. Choose a number from 1 to 1.", () ->
+                tasks.delete(-1));
     }
 
     private static void assertZeusException(String expectedMessage, Executable operation) {

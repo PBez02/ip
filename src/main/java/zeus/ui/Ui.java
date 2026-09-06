@@ -2,6 +2,7 @@ package zeus.ui;
 
 import java.util.List;
 import java.util.Scanner;
+
 import zeus.task.Task;
 
 /** Handles all console input and output for the Zeus chatbot. */
@@ -88,7 +89,7 @@ public class Ui {
         }
     }
 
-    /*
+    /**
      * Confirms that a task was marked as done.
      * @param task task whose status changed
      */

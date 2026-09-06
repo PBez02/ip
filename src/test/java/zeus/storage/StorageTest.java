@@ -115,8 +115,8 @@ public class StorageTest {
         Path directory = Files.createDirectory(temporaryDirectory.resolve("tasks"));
         Storage storage = new Storage(directory.toString());
 
-        ZeusException exception = assertThrows(ZeusException.class,
-                () -> storage.save(new TaskList()));
+        ZeusException exception = assertThrows(ZeusException.class, () ->
+                storage.save(new TaskList()));
 
         assertEquals("I couldn't save your tasks to " + directory + ".",
                 exception.getMessage());

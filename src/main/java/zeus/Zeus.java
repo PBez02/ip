@@ -10,7 +10,7 @@ import zeus.storage.Storage;
 import zeus.task.TaskList;
 import zeus.ui.Ui;
 
-/* Coordinates the components of the Zeus chatbot application. */
+/** Coordinates the components of the Zeus chatbot application. */
 public class Zeus {
     /** Component responsible for console interaction. */
     private final Ui ui;
