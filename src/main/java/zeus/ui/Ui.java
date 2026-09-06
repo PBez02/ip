@@ -60,9 +60,7 @@ public class Ui {
     public void showWelcome() {
         output.println(SEPARATOR);
         output.print(BANNER);
-        output.println("Hello! I'm Zeus.");
-        output.println("What can I do for you?");
-        output.println(SEPARATOR);
+        showLines("Hello! I'm Zeus.", "What can I do for you?", SEPARATOR);
     }
 
     /**
@@ -124,8 +122,7 @@ public class Ui {
      * @param task task whose status changed
      */
     public void showTaskMarked(Task task) {
-        output.println("Nice! I've marked this task as done:");
-        output.println("  " + task);
+        showLines("Nice! I've marked this task as done:", "  " + task);
     }
 
     /**
@@ -133,8 +130,7 @@ public class Ui {
      * @param task task whose status changed
      */
     public void showTaskUnmarked(Task task) {
-        output.println("OK, I've marked this task as not done yet:");
-        output.println("  " + task);
+        showLines("OK, I've marked this task as not done yet:", "  " + task);
     }
 
     /**
@@ -143,9 +139,10 @@ public class Ui {
      * @param taskCount number of remaining tasks
      */
     public void showTaskDeleted(Task task, int taskCount) {
-        output.println("Noted. I've removed this task:");
-        output.println("  " + task);
-        output.println("Now you have " + taskCount + " tasks in the list.");
+        showLines(
+                "Noted. I've removed this task:",
+                "  " + task,
+                "Now you have " + taskCount + " tasks in the list.");
     }
 
     /**
@@ -154,9 +151,10 @@ public class Ui {
      * @param taskCount number of stored tasks
      */
     public void showTaskAdded(Task task, int taskCount) {
-        output.println("Got it. I've added this task:");
-        output.println("  " + task);
-        output.println("Now you have " + taskCount + " tasks in the list.");
+        showLines(
+                "Got it. I've added this task:",
+                "  " + task,
+                "Now you have " + taskCount + " tasks in the list.");
     }
 
     /**
@@ -164,21 +162,32 @@ public class Ui {
      * @param message explanation of the error
      */
     public void showError(String message) {
-        output.println("OOPS!!! " + message);
+        showLines("OOPS!!! " + message);
     }
 
     /** Displays Zeus's farewell and, for the console, closes the final response boundary. */
     public void showGoodbye() {
-        output.println("Bye. Hope to see you again soon!");
+        showLines("Bye. Hope to see you again soon!");
         if (isSeparatorEnabled) {
-            output.println(SEPARATOR);
+            showLines(SEPARATOR);
         }
     }
 
     /** Closes the response boundary for a completed command. */
     public void showResponseEnd() {
         if (isSeparatorEnabled) {
-            output.println(SEPARATOR);
+            showLines(SEPARATOR);
+        }
+    }
+
+    /**
+     * Displays any number of message lines in their supplied order.
+     *
+     * @param lines Message lines to display.
+     */
+    private void showLines(String... lines) {
+        for (String line : lines) {
+            output.println(line);
         }
     }
 }
