@@ -17,9 +17,6 @@ import zeus.task.Event;
 import zeus.task.Task;
 import zeus.task.Todo;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeParseException;
-
 /** Converts user input into executable commands. */
 public final class Parser {
     /** Prevents creation of a stateless parser object. */
