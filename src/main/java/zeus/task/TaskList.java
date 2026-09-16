@@ -121,5 +121,7 @@ public class TaskList {
             throw new ZeusException("There is no task number " + taskNumber
                     + ". Choose a number from 1 to " + tasks.size() + ".");
         }
+        assert taskNumber >= 1 && taskNumber <= tasks.size()
+                : "A validated task number must identify a stored task.";
     }
 }
