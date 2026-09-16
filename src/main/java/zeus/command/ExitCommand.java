@@ -1,9 +1,5 @@
 package zeus.command;
 
-import zeus.storage.Storage;
-import zeus.task.TaskList;
-import zeus.ui.Ui;
-
 /** Ends the current Zeus session. */
 public class ExitCommand extends Command {
     /** Creates an exit command. */
@@ -12,13 +8,11 @@ public class ExitCommand extends Command {
 
     /**
      * Displays Zeus's farewell message.
-     * @param tasks task collection, which is not changed
-     * @param ui console interface used to display the farewell
-     * @param storage persistent storage, which is not needed
+     * @param context application components available to the command
      */
     @Override
-    public void execute(TaskList tasks, Ui ui, Storage storage) {
-        ui.showGoodbye();
+    public void execute(CommandContext context) {
+        context.getUi().showGoodbye();
     }
 
     /**

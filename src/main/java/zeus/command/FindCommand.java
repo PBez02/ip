@@ -1,9 +1,5 @@
 package zeus.command;
 
-import zeus.storage.Storage;
-import zeus.task.TaskList;
-import zeus.ui.Ui;
-
 /**
  * Displays tasks whose descriptions contain a keyword.
  */
@@ -22,12 +18,10 @@ public class FindCommand extends Command {
     /**
      * Displays matching tasks without changing or saving them.
      *
-     * @param tasks Task collection to search.
-     * @param ui Console interface used to display matching tasks.
-     * @param storage Persistent storage, which is not needed.
+     * @param context Application components available to the command.
      */
     @Override
-    public void execute(TaskList tasks, Ui ui, Storage storage) {
-        ui.showMatchingTasks(tasks.find(keyword));
+    public void execute(CommandContext context) {
+        context.getUi().showMatchingTasks(context.getTasks().find(keyword));
     }
 }

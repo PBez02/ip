@@ -1,10 +1,8 @@
 package zeus.command;
 
 import zeus.exception.ZeusException;
-import zeus.storage.Storage;
 import zeus.task.Task;
 import zeus.task.TaskList;
-import zeus.ui.Ui;
 
 /** Marks a numbered task as completed. */
 public class MarkCommand extends Command {
@@ -21,15 +19,14 @@ public class MarkCommand extends Command {
 
     /**
      * Marks and saves the task, then displays a confirmation.
-     * @param tasks task collection to update
-     * @param ui console interface used to display the result
-     * @param storage persistent storage used after the change
+     * @param context application components available to the command
      * @throws ZeusException if the task number is invalid or saving fails
      */
     @Override
-    public void execute(TaskList tasks, Ui ui, Storage storage) throws ZeusException {
+    public void execute(CommandContext context) throws ZeusException {
+        TaskList tasks = context.getTasks();
         Task task = tasks.mark(taskNumber);
-        storage.save(tasks);
-        ui.showTaskMarked(task);
+        context.getStorage().save(tasks);
+        context.getUi().showTaskMarked(task);
     }
 }

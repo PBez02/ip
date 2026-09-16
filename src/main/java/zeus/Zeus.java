@@ -7,10 +7,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import zeus.command.Command;
+import zeus.command.CommandContext;
 import zeus.exception.ZeusException;
 import zeus.parser.Parser;
 import zeus.storage.Storage;
 import zeus.task.TaskList;
+import zeus.ui.ConsoleUi;
 import zeus.ui.Ui;
 
 /** Coordinates the components of the Zeus chatbot application. */
@@ -19,7 +21,7 @@ public class Zeus {
     private static final String WELCOME_MESSAGE = "Hello! I'm Zeus.\nWhat can I do for you?";
 
     /** Component responsible for console interaction. */
-    private final Ui ui;
+    private final ConsoleUi ui;
 
     /** Component responsible for persistent task storage. */
     private final Storage storage;
@@ -39,7 +41,7 @@ public class Zeus {
      * @param filePath Path of the task data file.
      */
     public Zeus(String filePath) {
-        ui = new Ui();
+        ui = new ConsoleUi();
         storage = new Storage(filePath);
         loadWarnings = new ArrayList<>();
         tasks = new TaskList(storage.load(loadWarnings));
@@ -111,7 +113,7 @@ public class Zeus {
     private boolean executeCommand(String fullCommand, Ui commandUi) {
         try {
             Command command = Parser.parse(fullCommand);
-            command.execute(tasks, commandUi, storage);
+            command.execute(new CommandContext(tasks, commandUi, storage));
             return command.isExit();
         } catch (ZeusException exception) {
             commandUi.showError(exception.getMessage());

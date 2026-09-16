@@ -4,11 +4,11 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.time.LocalDate;
-import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
 
 import zeus.exception.ZeusException;
+import zeus.parser.TaskDateParser;
 import zeus.task.Deadline;
 import zeus.task.Event;
 import zeus.task.Task;
@@ -17,11 +17,13 @@ import zeus.task.Todo;
 
 /** Loads tasks from disk and saves the current task list. */
 public class Storage {
+
     /** File used to persist tasks between Zeus sessions. */
     private final Path dataFile;
 
     /**
      * Creates storage backed by the specified file.
+     *
      * @param filePath path of the task data file
      */
     public Storage(String filePath) {
@@ -30,27 +32,46 @@ public class Storage {
 
     /**
      * Loads all valid tasks and records recoverable problems as warnings.
+     *
      * @param warnings destination for user-friendly loading warnings
      * @return valid tasks in saved order, or an empty list when no file is available
      */
     public List<Task> load(List<String> warnings) {
-        List<Task> tasks = new ArrayList<>();
-        List<String> lines;
+        List<String> lines = readSavedLines(warnings);
+        return parseSavedTasks(lines, warnings);
+    }
 
+    /**
+     * Reads the saved task records, reporting recoverable file problems as warnings.
+     *
+     * @param warnings destination for user-friendly loading warnings
+     * @return saved records, or an empty list when the file cannot be read
+     */
+    private List<String> readSavedLines(List<String> warnings) {
         try {
             if (Files.notExists(dataFile)) {
-                return tasks;
+                return List.of();
             } else if (!Files.isRegularFile(dataFile)) {
                 warnings.add(dataFile
                         + " is not a readable task file. Starting with an empty list.");
-                return tasks;
+                return List.of();
             }
-            lines = Files.readAllLines(dataFile);
+            return Files.readAllLines(dataFile);
         } catch (IOException | SecurityException exception) {
             warnings.add("I couldn't read " + dataFile + ". Starting with an empty list.");
-            return tasks;
+            return List.of();
         }
+    }
 
+    /**
+     * Reconstructs all valid tasks while reporting malformed saved records as warnings.
+     *
+     * @param lines saved task records
+     * @param warnings destination for user-friendly loading warnings
+     * @return valid tasks in their saved order
+     */
+    private List<Task> parseSavedTasks(List<String> lines, List<String> warnings) {
+        List<Task> tasks = new ArrayList<>();
         for (int i = 0; i < lines.size(); i++) {
             String line = lines.get(i);
             if (line.isBlank()) {
@@ -69,6 +90,7 @@ public class Storage {
 
     /**
      * Writes the current task list to disk, replacing the old file contents.
+     *
      * @param tasks tasks to save
      * @throws ZeusException if the data directory or file cannot be written
      */
@@ -91,6 +113,7 @@ public class Storage {
 
     /**
      * Splits a saved line at unescaped pipe characters and unescapes its fields.
+     *
      * @param line saved task record
      * @return fields contained in the record
      * @throws ZeusException if the record ends with an escape or uses an invalid escape
@@ -121,12 +144,14 @@ public class Storage {
         if (isEscaped) {
             throw new ZeusException("The record ends with an incomplete escape sequence.");
         }
+
         fields.add(field.toString().trim());
         return fields;
     }
 
     /**
      * Converts one validated data-file record into a task.
+     *
      * @param line saved task record
      * @return task represented by the record
      * @throws ZeusException if the record is malformed or contains unsupported values
@@ -163,6 +188,7 @@ public class Storage {
 
     /**
      * Returns the required field count for a serialized task type.
+     *
      * @param taskType serialized task type icon
      * @return required number of fields
      * @throws ZeusException if the type is not supported
@@ -178,6 +204,7 @@ public class Storage {
 
     /**
      * Creates the appropriate task subtype from validated saved fields.
+     *
      * @param taskType serialized task type icon
      * @param description task description
      * @param fields complete saved fields
@@ -186,56 +213,52 @@ public class Storage {
      */
     private Task createTask(String taskType, String description, List<String> fields)
             throws ZeusException {
-        if (taskType.equals("T")) {
-            return new Todo(description);
-        } else if (taskType.equals("D")) {
-            String by = fields.get(3);
-            if (by.isEmpty()) {
-                throw new ZeusException("The deadline's '/by' value is empty.");
-            }
-            return new Deadline(description, parseDate(by, "deadline"));
-        }
+        assert taskType.equals("T") || taskType.equals("D") || taskType.equals("E")
+                : "Only a validated task type should reach task construction.";
 
-        assert taskType.equals("E")
-                : "Only a validated event record should reach event construction.";
-        String from = fields.get(3);
-        String to = fields.get(4);
+        return switch (taskType) {
+            case "T" -> new Todo(description);
+            case "D" -> createDeadline(description, fields.get(3));
+            case "E" -> createEvent(description, fields.get(3), fields.get(4));
+            default -> throw new IllegalStateException(
+                    "Unsupported validated task type: " + taskType);
+        };
+    }
+
+    /**
+     * Creates a deadline from validated common fields and its saved date.
+     *
+     * @param description Task description.
+     * @param by Saved deadline date.
+     * @return Reconstructed deadline.
+     * @throws ZeusException If the saved date is empty or invalid.
+     */
+    private Deadline createDeadline(String description, String by) throws ZeusException {
+        if (by.isEmpty()) {
+            throw new ZeusException("The deadline's '/by' value is empty.");
+        }
+        return new Deadline(description, TaskDateParser.parse(by, "deadline"));
+    }
+
+    /**
+     * Creates an event from validated common fields and its saved dates.
+     *
+     * @param description Task description.
+     * @param from Saved event start date.
+     * @param to Saved event end date.
+     * @return Reconstructed event.
+     * @throws ZeusException If either date is empty, invalid, or out of order.
+     */
+    private Event createEvent(String description, String from, String to) throws ZeusException {
         if (from.isEmpty()) {
             throw new ZeusException("The event's '/from' value is empty.");
         } else if (to.isEmpty()) {
             throw new ZeusException("The event's '/to' value is empty.");
         }
-        LocalDate fromDate = parseDate(from, "event start");
-        LocalDate toDate = parseDate(to, "event end");
-        validateEventDates(fromDate, toDate);
+
+        LocalDate fromDate = TaskDateParser.parse(from, "event start");
+        LocalDate toDate = TaskDateParser.parse(to, "event end");
+        TaskDateParser.validateEventDates(fromDate, toDate);
         return new Event(description, fromDate, toDate);
-    }
-
-    /**
-     * Parses an ISO date stored in the data file.
-     * @param dateText saved date text
-     * @param fieldName name used to identify an invalid field
-     * @return parsed date
-     * @throws ZeusException if the text is not a valid ISO date
-     */
-    private LocalDate parseDate(String dateText, String fieldName) throws ZeusException {
-        try {
-            return LocalDate.parse(dateText);
-        } catch (DateTimeParseException exception) {
-            throw new ZeusException("The " + fieldName
-                    + " date must use yyyy-MM-dd, for example 2019-10-15.");
-        }
-    }
-
-    /**
-     * Ensures that a saved event does not finish before it starts.
-     * @param from start date
-     * @param to end date
-     * @throws ZeusException if the end date precedes the start date
-     */
-    private void validateEventDates(LocalDate from, LocalDate to) throws ZeusException {
-        if (to.isBefore(from)) {
-            throw new ZeusException("The event end date cannot be before its start date.");
-        }
     }
 }
