@@ -33,6 +33,8 @@ public class DialogBox extends HBox {
         } catch (IOException exception) {
             throw new IllegalStateException("Unable to load the dialog box layout.", exception);
         }
+        assert dialog != null && avatar != null
+                : "DialogBox.fxml must inject the dialog and avatar labels.";
         dialog.setText(text);
     }
 

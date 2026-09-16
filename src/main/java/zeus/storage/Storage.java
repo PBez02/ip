@@ -196,6 +196,8 @@ public class Storage {
             return new Deadline(description, parseDate(by, "deadline"));
         }
 
+        assert taskType.equals("E")
+                : "Only a validated event record should reach event construction.";
         String from = fields.get(3);
         String to = fields.get(4);
         if (from.isEmpty()) {

@@ -95,6 +95,9 @@ public final class Parser {
      * @throws ZeusException if required task details are missing or invalid
      */
     private static Task parseTask(String fullCommand) throws ZeusException {
+        assert isTaskCommand(fullCommand)
+                : "Only recognized task commands should reach task parsing.";
+
         if (fullCommand.equals("todo")) {
             throw new ZeusException("A todo needs a description after 'todo'.");
         } else if (fullCommand.startsWith("todo ")) {
