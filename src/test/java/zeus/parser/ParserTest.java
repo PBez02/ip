@@ -11,6 +11,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 
 import zeus.command.AddCommand;
+import zeus.command.CommandContext;
 import zeus.command.DeleteCommand;
 import zeus.command.ExitCommand;
 import zeus.command.FindCommand;
@@ -48,11 +49,12 @@ public class ParserTest {
         TaskList tasks = new TaskList();
         Storage storage = new Storage(temporaryDirectory.resolve("data/zeus.txt").toString());
         Ui ui = new Ui();
+        CommandContext context = new CommandContext(tasks, ui, storage);
 
-        Parser.parse("todo read book").execute(tasks, ui, storage);
-        Parser.parse("deadline return book /by 2026-09-06").execute(tasks, ui, storage);
+        Parser.parse("todo read book").execute(context);
+        Parser.parse("deadline return book /by 2026-09-06").execute(context);
         Parser.parse("event meeting /from 2026-09-07 /to 2026-09-08")
-                .execute(tasks, ui, storage);
+                .execute(context);
 
         List<String> savedForms = tasks.getTasks().stream()
                 .map(Task::toDataString)

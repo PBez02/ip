@@ -1,10 +1,8 @@
 package zeus.command;
 
 import zeus.exception.ZeusException;
-import zeus.storage.Storage;
 import zeus.task.Task;
 import zeus.task.TaskList;
-import zeus.ui.Ui;
 
 /** Adds a parsed task to the task list. */
 public class AddCommand extends Command {
@@ -21,15 +19,14 @@ public class AddCommand extends Command {
 
     /**
      * Adds and saves the task, then displays a confirmation.
-     * @param tasks task collection to update
-     * @param ui console interface used to display the result
-     * @param storage persistent storage used after the change
+     * @param context application components available to the command
      * @throws ZeusException if the task list cannot be saved
      */
     @Override
-    public void execute(TaskList tasks, Ui ui, Storage storage) throws ZeusException {
+    public void execute(CommandContext context) throws ZeusException {
+        TaskList tasks = context.getTasks();
         tasks.add(task);
-        storage.save(tasks);
-        ui.showTaskAdded(task, tasks.size());
+        context.getStorage().save(tasks);
+        context.getUi().showTaskAdded(task, tasks.size());
     }
 }

@@ -1,9 +1,6 @@
 package zeus.command;
 
 import zeus.exception.ZeusException;
-import zeus.storage.Storage;
-import zeus.task.TaskList;
-import zeus.ui.Ui;
 
 /** Represents an operation that Zeus can execute. */
 public abstract class Command {
@@ -12,13 +9,11 @@ public abstract class Command {
     }
 
     /**
-     * Executes this command using the application components it needs.
-     * @param tasks task collection to read or update
-     * @param ui console interface used to display the result
-     * @param storage persistent storage used after task changes
+     * Executes this command using the supplied application context.
+     * @param context application components available to the command
      * @throws ZeusException if the command cannot be completed
      */
-    public abstract void execute(TaskList tasks, Ui ui, Storage storage) throws ZeusException;
+    public abstract void execute(CommandContext context) throws ZeusException;
 
     /**
      * Reports whether this command should end the command loop.
