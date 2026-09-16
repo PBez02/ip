@@ -1,9 +1,12 @@
 package zeus;
 
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 
 import org.junit.jupiter.api.Test;
@@ -33,11 +36,37 @@ public class ZeusTest {
     public void getResponse_invalidAndExitCommands_returnsRepliesAndTracksExit() {
         Zeus zeus = new Zeus(temporaryDirectory.resolve("zeus.txt").toString());
 
-        assertEquals("OOPS!!! I don't recognize that command. Try todo, deadline, event, list, find, mark, "
-                + "unmark, delete, or bye.", zeus.getResponse("unknown"));
+        assertEquals("OOPS!!! I don't recognize that command. Type 'help' to see available commands.",
+                zeus.getResponse("unknown"));
         assertFalse(zeus.isExitRequested());
 
         assertEquals("Bye. Hope to see you again soon!", zeus.getResponse("bye"));
         assertTrue(zeus.isExitRequested());
+    }
+
+    @Test
+    public void getResponse_helpCommand_returnsGuidanceWithoutSaving() throws IOException {
+        Path dataFile = temporaryDirectory.resolve("zeus.txt");
+        Zeus zeus = new Zeus(dataFile.toString());
+        zeus.getResponse("todo read book");
+        byte[] dataBeforeHelp = Files.readAllBytes(dataFile);
+
+        String response = zeus.getResponse("help");
+
+        assertEquals("Here are the commands you can use:\n"
+                + "  todo DESCRIPTION - Add a task without a date.\n"
+                + "  deadline DESCRIPTION /by yyyy-MM-dd - Add a task with a due date.\n"
+                + "  event DESCRIPTION /from yyyy-MM-dd /to yyyy-MM-dd - Add a task with start and end dates.\n"
+                + "  list - Show all tasks.\n"
+                + "  find KEYWORD - Find tasks whose descriptions contain the keyword.\n"
+                + "  mark NUMBER - Mark the numbered task as done.\n"
+                + "  unmark NUMBER - Mark the numbered task as not done.\n"
+                + "  delete NUMBER - Delete the numbered task.\n"
+                + "  help - Show this help page.\n"
+                + "  bye - Exit Zeus.\n"
+                + "\n"
+                + "Dates must use yyyy-MM-dd, for example 2026-09-06.", response);
+        assertArrayEquals(dataBeforeHelp, Files.readAllBytes(dataFile));
+        assertFalse(zeus.isExitRequested());
     }
 }
