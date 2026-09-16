@@ -213,6 +213,9 @@ public class Storage {
      */
     private Task createTask(String taskType, String description, List<String> fields)
             throws ZeusException {
+        assert taskType.equals("T") || taskType.equals("D") || taskType.equals("E")
+                : "Only a validated task type should reach task construction.";
+
         return switch (taskType) {
             case "T" -> new Todo(description);
             case "D" -> createDeadline(description, fields.get(3));
