@@ -89,7 +89,9 @@ public class Zeus {
             Ui responseUi = new Ui(responseOutput);
             isExitRequested = executeCommand(input.trim(), responseUi);
         }
-        return responseBuffer.toString(StandardCharsets.UTF_8).stripTrailing();
+        String response = responseBuffer.toString(StandardCharsets.UTF_8).stripTrailing();
+        assert !response.isEmpty() : "Every command execution must generate a reply.";
+        return response;
     }
 
     /**

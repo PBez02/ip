@@ -51,6 +51,7 @@ public class MainWindow {
     /** Adds the user's command and Zeus's response to the conversation. */
     @FXML
     private void handleUserInput() {
+        assert zeus != null : "Zeus must be injected before input is handled.";
         String input = userInput.getText().trim();
         if (input.isEmpty()) {
             return;

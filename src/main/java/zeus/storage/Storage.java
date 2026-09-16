@@ -195,10 +195,10 @@ public class Storage {
      */
     private int getExpectedFieldCount(String taskType) throws ZeusException {
         return switch (taskType) {
-        case "T" -> 3;
-        case "D" -> 4;
-        case "E" -> 5;
-        default -> throw new ZeusException("Unknown task type '" + taskType + "'.");
+            case "T" -> 3;
+            case "D" -> 4;
+            case "E" -> 5;
+            default -> throw new ZeusException("Unknown task type '" + taskType + "'.");
         };
     }
 
@@ -213,12 +213,15 @@ public class Storage {
      */
     private Task createTask(String taskType, String description, List<String> fields)
             throws ZeusException {
+        assert taskType.equals("T") || taskType.equals("D") || taskType.equals("E")
+                : "Only a validated task type should reach task construction.";
+
         return switch (taskType) {
-        case "T" -> new Todo(description);
-        case "D" -> createDeadline(description, fields.get(3));
-        case "E" -> createEvent(description, fields.get(3), fields.get(4));
-        default -> throw new IllegalStateException(
-                "Unsupported validated task type: " + taskType);
+            case "T" -> new Todo(description);
+            case "D" -> createDeadline(description, fields.get(3));
+            case "E" -> createEvent(description, fields.get(3), fields.get(4));
+            default -> throw new IllegalStateException(
+                    "Unsupported validated task type: " + taskType);
         };
     }
 
