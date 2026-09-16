@@ -47,6 +47,24 @@ public class Ui {
         }
     }
 
+    /** Displays guidance for every supported command. */
+    public void showHelp() {
+        showLines(
+                "Here are the commands you can use:",
+                "  todo DESCRIPTION - Add a task without a date.",
+                "  deadline DESCRIPTION /by yyyy-MM-dd - Add a task with a due date.",
+                "  event DESCRIPTION /from yyyy-MM-dd /to yyyy-MM-dd - Add a task with start and end dates.",
+                "  list - Show all tasks.",
+                "  find KEYWORD - Find tasks whose descriptions contain the keyword.",
+                "  mark NUMBER - Mark the numbered task as done.",
+                "  unmark NUMBER - Mark the numbered task as not done.",
+                "  delete NUMBER - Delete the numbered task.",
+                "  help - Show this help page.",
+                "  bye - Exit Zeus.",
+                "",
+                "Dates must use yyyy-MM-dd, for example 2026-09-06.");
+    }
+
     /**
      * Confirms that a task was marked as done.
      * @param task task whose status changed

@@ -7,6 +7,7 @@ import zeus.command.Command;
 import zeus.command.DeleteCommand;
 import zeus.command.ExitCommand;
 import zeus.command.FindCommand;
+import zeus.command.HelpCommand;
 import zeus.command.ListCommand;
 import zeus.command.MarkCommand;
 import zeus.command.UnmarkCommand;
@@ -20,6 +21,9 @@ import zeus.task.Todo;
 public final class Parser {
     /** Command word used to search task descriptions. */
     private static final String FIND_COMMAND = "find";
+
+    /** Command word used to display guidance. */
+    private static final String HELP_COMMAND = "help";
 
     /** Command word used to create a task without a date. */
     private static final String TODO_COMMAND = "todo";
@@ -54,6 +58,9 @@ public final class Parser {
             return new ExitCommand();
         } else if (fullCommand.equals("list")) {
             return new ListCommand();
+        } else if (fullCommand.equals(HELP_COMMAND)
+                || fullCommand.startsWith(HELP_COMMAND + " ")) {
+            return parseHelpCommand(fullCommand);
         } else if (fullCommand.equals(FIND_COMMAND)
                 || fullCommand.startsWith(FIND_COMMAND + " ")) {
             return parseFindCommand(fullCommand);
@@ -68,9 +75,24 @@ public final class Parser {
         }
 
         throw new ZeusException(
-                "I don't recognize that command. Try todo, deadline, event, list, find, mark, "
-                        + "unmark, delete, or bye."
+                "I don't recognize that command. Type 'help' to see available commands."
         );
+    }
+
+    /**
+     * Creates a help command when no arguments were supplied.
+     *
+     * @param fullCommand Full help command entered by the user.
+     * @return Command that displays user guidance.
+     * @throws ZeusException If the command contains arguments.
+     */
+    private static HelpCommand parseHelpCommand(String fullCommand) throws ZeusException {
+        String arguments = fullCommand.substring(HELP_COMMAND.length()).trim();
+        if (!arguments.isEmpty()) {
+            throw new ZeusException(
+                    "The help command does not take any arguments. Type 'help' on its own.");
+        }
+        return new HelpCommand();
     }
 
     /**

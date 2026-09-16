@@ -26,7 +26,13 @@ public class ConsoleUi extends Ui {
 
     /** Displays Zeus's banner and greeting. */
     public void showWelcome() {
-        showLines(SEPARATOR, BANNER, "Hello! I'm Zeus.", "What can I do for you?", SEPARATOR);
+        showLines(
+                SEPARATOR,
+                BANNER,
+                "Hello! I'm Zeus.",
+                "What can I do for you?",
+                "Type 'help' to see available commands.",
+                SEPARATOR);
     }
 
     /**

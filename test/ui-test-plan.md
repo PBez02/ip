@@ -27,6 +27,7 @@ ____________________________________________________________
 /____\___|\__,_|___/
 Hello! I'm Zeus.
 What can I do for you?
+Type 'help' to see available commands.
 ____________________________________________________________
 ____________________________________________________________
 Got it. I've added this task:
@@ -80,6 +81,7 @@ ____________________________________________________________
 /____\___|\__,_|___/
 Hello! I'm Zeus.
 What can I do for you?
+Type 'help' to see available commands.
 ____________________________________________________________
 ____________________________________________________________
 Got it. I've added this task:
@@ -135,6 +137,7 @@ ____________________________________________________________
 /____\___|\__,_|___/
 Hello! I'm Zeus.
 What can I do for you?
+Type 'help' to see available commands.
 ____________________________________________________________
 ____________________________________________________________
 Got it. I've added this task:
@@ -188,6 +191,7 @@ ____________________________________________________________
 /____\___|\__,_|___/
 Hello! I'm Zeus.
 What can I do for you?
+Type 'help' to see available commands.
 ____________________________________________________________
 ____________________________________________________________
 Got it. I've added this task:
@@ -235,6 +239,7 @@ ____________________________________________________________
 /____\___|\__,_|___/
 Hello! I'm Zeus.
 What can I do for you?
+Type 'help' to see available commands.
 ____________________________________________________________
 ____________________________________________________________
 OOPS!!! A todo needs a description after 'todo'.
@@ -249,7 +254,7 @@ ____________________________________________________________
 OOPS!!! Tell me what to find, for example 'find book'.
 ____________________________________________________________
 ____________________________________________________________
-OOPS!!! I don't recognize that command. Try todo, deadline, event, list, find, mark, unmark, delete, or bye.
+OOPS!!! I don't recognize that command. Type 'help' to see available commands.
 ____________________________________________________________
 ____________________________________________________________
 Bye. Hope to see you again soon!
@@ -290,6 +295,7 @@ ____________________________________________________________
 /____\___|\__,_|___/
 Hello! I'm Zeus.
 What can I do for you?
+Type 'help' to see available commands.
 ____________________________________________________________
 ____________________________________________________________
 OOPS!!! A deadline needs a '/by' date.
@@ -366,6 +372,7 @@ ____________________________________________________________
 /____\___|\__,_|___/
 Hello! I'm Zeus.
 What can I do for you?
+Type 'help' to see available commands.
 ____________________________________________________________
 ____________________________________________________________
 OOPS!!! Tell me which task to mark, for example 'mark 1'.
@@ -436,6 +443,7 @@ ____________________________________________________________
 /____\___|\__,_|___/
 Hello! I'm Zeus.
 What can I do for you?
+Type 'help' to see available commands.
 ____________________________________________________________
 ____________________________________________________________
 Got it. I've added this task:
@@ -519,6 +527,7 @@ ____________________________________________________________
 /____\___|\__,_|___/
 Hello! I'm Zeus.
 What can I do for you?
+Type 'help' to see available commands.
 ____________________________________________________________
 ____________________________________________________________
 OOPS!!! Tell me which task to delete, for example 'delete 1'.
@@ -575,6 +584,7 @@ ____________________________________________________________
 /____\___|\__,_|___/
 Hello! I'm Zeus.
 What can I do for you?
+Type 'help' to see available commands.
 ____________________________________________________________
 ____________________________________________________________
 Got it. I've added this task:
@@ -642,6 +652,7 @@ ____________________________________________________________
 /____\___|\__,_|___/
 Hello! I'm Zeus.
 What can I do for you?
+Type 'help' to see available commands.
 ____________________________________________________________
 ____________________________________________________________
 Here are the tasks in your list:
@@ -684,6 +695,7 @@ ____________________________________________________________
 /____\___|\__,_|___/
 Hello! I'm Zeus.
 What can I do for you?
+Type 'help' to see available commands.
 ____________________________________________________________
 ____________________________________________________________
 Here are the tasks in your list:
@@ -735,6 +747,7 @@ ____________________________________________________________
 /____\___|\__,_|___/
 Hello! I'm Zeus.
 What can I do for you?
+Type 'help' to see available commands.
 ____________________________________________________________
 OOPS!!! Saved data line 3 was ignored: Unknown task type 'X'.
 OOPS!!! Saved data line 4 was ignored: Completion status must be 0 or 1, not '2'.
@@ -801,6 +814,7 @@ ____________________________________________________________
 /____\___|\__,_|___/
 Hello! I'm Zeus.
 What can I do for you?
+Type 'help' to see available commands.
 ____________________________________________________________
 ____________________________________________________________
 Here are the tasks in your list:
@@ -857,6 +871,7 @@ ____________________________________________________________
 /____\___|\__,_|___/
 Hello! I'm Zeus.
 What can I do for you?
+Type 'help' to see available commands.
 ____________________________________________________________
 ____________________________________________________________
 Here are the matching tasks in your list:
@@ -881,4 +896,68 @@ ____________________________________________________________
 T | 1 | read book
 D | 0 | return book | 2026-06-06
 E | 1 | project meeting | 2026-08-06 | 2026-08-07
+```
+
+## TC-16: Display command help
+
+**Aim:** Verify that `help` displays all supported commands without changing saved tasks, rejects arguments, and remains case-sensitive.
+
+### Initial data file
+
+```text
+T | 0 | read book
+```
+
+### Input
+
+```text
+help
+help todo
+HELP
+bye
+```
+
+### Expected output
+
+```text
+____________________________________________________________
+ _____
+|__  /___ _   _ ___
+  / // _ \ | | / __|
+ / /|  __/ |_| \__ \
+/____\___|\__,_|___/
+Hello! I'm Zeus.
+What can I do for you?
+Type 'help' to see available commands.
+____________________________________________________________
+____________________________________________________________
+Here are the commands you can use:
+  todo DESCRIPTION - Add a task without a date.
+  deadline DESCRIPTION /by yyyy-MM-dd - Add a task with a due date.
+  event DESCRIPTION /from yyyy-MM-dd /to yyyy-MM-dd - Add a task with start and end dates.
+  list - Show all tasks.
+  find KEYWORD - Find tasks whose descriptions contain the keyword.
+  mark NUMBER - Mark the numbered task as done.
+  unmark NUMBER - Mark the numbered task as not done.
+  delete NUMBER - Delete the numbered task.
+  help - Show this help page.
+  bye - Exit Zeus.
+
+Dates must use yyyy-MM-dd, for example 2026-09-06.
+____________________________________________________________
+____________________________________________________________
+OOPS!!! The help command does not take any arguments. Type 'help' on its own.
+____________________________________________________________
+____________________________________________________________
+OOPS!!! I don't recognize that command. Type 'help' to see available commands.
+____________________________________________________________
+____________________________________________________________
+Bye. Hope to see you again soon!
+____________________________________________________________
+```
+
+### Expected data file
+
+```text
+T | 0 | read book
 ```

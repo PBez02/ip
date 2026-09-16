@@ -18,7 +18,9 @@ import zeus.ui.Ui;
 /** Coordinates the components of the Zeus chatbot application. */
 public class Zeus {
     /** Greeting shown when the graphical interface starts. */
-    private static final String WELCOME_MESSAGE = "Hello! I'm Zeus.\nWhat can I do for you?";
+    private static final String WELCOME_MESSAGE = "Hello! I'm Zeus.\n"
+            + "What can I do for you?\n"
+            + "Type 'help' to see available commands.";
 
     /** Component responsible for console interaction. */
     private final ConsoleUi ui;
