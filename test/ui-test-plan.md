@@ -25,22 +25,21 @@ ____________________________________________________________
   / // _ \ | | / __|
  / /|  __/ |_| \__ \
 /____\___|\__,_|___/
-Hello! I'm Zeus.
-What can I do for you?
+Zeus awaits your command. ⚡
 Type 'help' to see available commands.
 ____________________________________________________________
 ____________________________________________________________
-Got it. I've added this task:
+It is decreed. Your task has been added.
   [T][ ] borrow book
 Now you have 1 tasks in the list.
 ____________________________________________________________
 ____________________________________________________________
-Got it. I've added this task:
+It is decreed. Your task has been added.
   [D][ ] return book (by: Sep 6 2026)
 Now you have 2 tasks in the list.
 ____________________________________________________________
 ____________________________________________________________
-Got it. I've added this task:
+It is decreed. Your task has been added.
   [E][ ] project meeting (from: Sep 7 2026 to: Sep 8 2026)
 Now you have 3 tasks in the list.
 ____________________________________________________________
@@ -51,7 +50,7 @@ Here are the tasks in your list:
 3.[E][ ] project meeting (from: Sep 7 2026 to: Sep 8 2026)
 ____________________________________________________________
 ____________________________________________________________
-Bye. Hope to see you again soon!
+Farewell, mortal.
 ____________________________________________________________
 ```
 
@@ -79,26 +78,25 @@ ____________________________________________________________
   / // _ \ | | / __|
  / /|  __/ |_| \__ \
 /____\___|\__,_|___/
-Hello! I'm Zeus.
-What can I do for you?
+Zeus awaits your command. ⚡
 Type 'help' to see available commands.
 ____________________________________________________________
 ____________________________________________________________
-Got it. I've added this task:
+It is decreed. Your task has been added.
   [T][ ] read book
 Now you have 1 tasks in the list.
 ____________________________________________________________
 ____________________________________________________________
-Got it. I've added this task:
+It is decreed. Your task has been added.
   [D][ ] return book (by: Jun 6 2026)
 Now you have 2 tasks in the list.
 ____________________________________________________________
 ____________________________________________________________
-Nice! I've marked this task as done:
+A worthy task completed.
   [T][X] read book
 ____________________________________________________________
 ____________________________________________________________
-Nice! I've marked this task as done:
+A worthy task completed.
   [D][X] return book (by: Jun 6 2026)
 ____________________________________________________________
 ____________________________________________________________
@@ -107,7 +105,7 @@ Here are the tasks in your list:
 2.[D][X] return book (by: Jun 6 2026)
 ____________________________________________________________
 ____________________________________________________________
-Bye. Hope to see you again soon!
+Farewell, mortal.
 ____________________________________________________________
 ```
 
@@ -135,22 +133,21 @@ ____________________________________________________________
   / // _ \ | | / __|
  / /|  __/ |_| \__ \
 /____\___|\__,_|___/
-Hello! I'm Zeus.
-What can I do for you?
+Zeus awaits your command. ⚡
 Type 'help' to see available commands.
 ____________________________________________________________
 ____________________________________________________________
-Got it. I've added this task:
+It is decreed. Your task has been added.
   [T][ ] read book
 Now you have 1 tasks in the list.
 ____________________________________________________________
 ____________________________________________________________
-Got it. I've added this task:
+It is decreed. Your task has been added.
   [D][ ] return book (by: Jun 6 2026)
 Now you have 2 tasks in the list.
 ____________________________________________________________
 ____________________________________________________________
-Nice! I've marked this task as done:
+A worthy task completed.
   [D][X] return book (by: Jun 6 2026)
 ____________________________________________________________
 ____________________________________________________________
@@ -163,7 +160,7 @@ Here are the tasks in your list:
 2.[D][ ] return book (by: Jun 6 2026)
 ____________________________________________________________
 ____________________________________________________________
-Bye. Hope to see you again soon!
+Farewell, mortal.
 ____________________________________________________________
 ```
 
@@ -189,17 +186,16 @@ ____________________________________________________________
   / // _ \ | | / __|
  / /|  __/ |_| \__ \
 /____\___|\__,_|___/
-Hello! I'm Zeus.
-What can I do for you?
+Zeus awaits your command. ⚡
 Type 'help' to see available commands.
 ____________________________________________________________
 ____________________________________________________________
-Got it. I've added this task:
+It is decreed. Your task has been added.
   [D][ ] do homework (by: Feb 29 2028)
 Now you have 1 tasks in the list.
 ____________________________________________________________
 ____________________________________________________________
-Got it. I've added this task:
+It is decreed. Your task has been added.
   [E][ ] orientation week (from: Oct 4 2019 to: Oct 11 2019)
 Now you have 2 tasks in the list.
 ____________________________________________________________
@@ -209,7 +205,7 @@ Here are the tasks in your list:
 2.[E][ ] orientation week (from: Oct 4 2019 to: Oct 11 2019)
 ____________________________________________________________
 ____________________________________________________________
-Bye. Hope to see you again soon!
+Farewell, mortal.
 ____________________________________________________________
 ```
 
@@ -237,8 +233,7 @@ ____________________________________________________________
   / // _ \ | | / __|
  / /|  __/ |_| \__ \
 /____\___|\__,_|___/
-Hello! I'm Zeus.
-What can I do for you?
+Zeus awaits your command. ⚡
 Type 'help' to see available commands.
 ____________________________________________________________
 ____________________________________________________________
@@ -254,10 +249,10 @@ ____________________________________________________________
 OOPS!!! Tell me what to find, for example 'find book'.
 ____________________________________________________________
 ____________________________________________________________
-OOPS!!! I don't recognize that command. Type 'help' to see available commands.
+OOPS!!! Even Zeus cannot understand that command. Type 'help' to see available commands.
 ____________________________________________________________
 ____________________________________________________________
-Bye. Hope to see you again soon!
+Farewell, mortal.
 ____________________________________________________________
 ```
 
@@ -293,8 +288,7 @@ ____________________________________________________________
   / // _ \ | | / __|
  / /|  __/ |_| \__ \
 /____\___|\__,_|___/
-Hello! I'm Zeus.
-What can I do for you?
+Zeus awaits your command. ⚡
 Type 'help' to see available commands.
 ____________________________________________________________
 ____________________________________________________________
@@ -337,7 +331,7 @@ ____________________________________________________________
 OOPS!!! The event end date cannot be before its start date.
 ____________________________________________________________
 ____________________________________________________________
-Bye. Hope to see you again soon!
+Farewell, mortal.
 ____________________________________________________________
 ```
 
@@ -370,8 +364,7 @@ ____________________________________________________________
   / // _ \ | | / __|
  / /|  __/ |_| \__ \
 /____\___|\__,_|___/
-Hello! I'm Zeus.
-What can I do for you?
+Zeus awaits your command. ⚡
 Type 'help' to see available commands.
 ____________________________________________________________
 ____________________________________________________________
@@ -384,7 +377,7 @@ ____________________________________________________________
 OOPS!!! Your task list is empty.
 ____________________________________________________________
 ____________________________________________________________
-Got it. I've added this task:
+It is decreed. Your task has been added.
   [T][ ] valid task
 Now you have 1 tasks in the list.
 ____________________________________________________________
@@ -408,7 +401,7 @@ Here are the tasks in your list:
 1.[T][ ] valid task
 ____________________________________________________________
 ____________________________________________________________
-Bye. Hope to see you again soon!
+Farewell, mortal.
 ____________________________________________________________
 ```
 
@@ -441,45 +434,44 @@ ____________________________________________________________
   / // _ \ | | / __|
  / /|  __/ |_| \__ \
 /____\___|\__,_|___/
-Hello! I'm Zeus.
-What can I do for you?
+Zeus awaits your command. ⚡
 Type 'help' to see available commands.
 ____________________________________________________________
 ____________________________________________________________
-Got it. I've added this task:
+It is decreed. Your task has been added.
   [T][ ] read book
 Now you have 1 tasks in the list.
 ____________________________________________________________
 ____________________________________________________________
-Got it. I've added this task:
+It is decreed. Your task has been added.
   [D][ ] return book (by: Jun 6 2026)
 Now you have 2 tasks in the list.
 ____________________________________________________________
 ____________________________________________________________
-Got it. I've added this task:
+It is decreed. Your task has been added.
   [E][ ] project meeting (from: Aug 6 2026 to: Aug 7 2026)
 Now you have 3 tasks in the list.
 ____________________________________________________________
 ____________________________________________________________
-Got it. I've added this task:
+It is decreed. Your task has been added.
   [T][ ] join sports club
 Now you have 4 tasks in the list.
 ____________________________________________________________
 ____________________________________________________________
-Got it. I've added this task:
+It is decreed. Your task has been added.
   [T][ ] borrow book
 Now you have 5 tasks in the list.
 ____________________________________________________________
 ____________________________________________________________
-Nice! I've marked this task as done:
+A worthy task completed.
   [T][X] read book
 ____________________________________________________________
 ____________________________________________________________
-Nice! I've marked this task as done:
+A worthy task completed.
   [D][X] return book (by: Jun 6 2026)
 ____________________________________________________________
 ____________________________________________________________
-Nice! I've marked this task as done:
+A worthy task completed.
   [T][X] join sports club
 ____________________________________________________________
 ____________________________________________________________
@@ -495,7 +487,7 @@ Here are the tasks in your list:
 4.[T][ ] borrow book
 ____________________________________________________________
 ____________________________________________________________
-Bye. Hope to see you again soon!
+Farewell, mortal.
 ____________________________________________________________
 ```
 
@@ -525,8 +517,7 @@ ____________________________________________________________
   / // _ \ | | / __|
  / /|  __/ |_| \__ \
 /____\___|\__,_|___/
-Hello! I'm Zeus.
-What can I do for you?
+Zeus awaits your command. ⚡
 Type 'help' to see available commands.
 ____________________________________________________________
 ____________________________________________________________
@@ -539,7 +530,7 @@ ____________________________________________________________
 OOPS!!! Your task list is empty.
 ____________________________________________________________
 ____________________________________________________________
-Got it. I've added this task:
+It is decreed. Your task has been added.
   [T][ ] keep me
 Now you have 1 tasks in the list.
 ____________________________________________________________
@@ -554,7 +545,7 @@ Here are the tasks in your list:
 1.[T][ ] keep me
 ____________________________________________________________
 ____________________________________________________________
-Bye. Hope to see you again soon!
+Farewell, mortal.
 ____________________________________________________________
 ```
 
@@ -582,27 +573,26 @@ ____________________________________________________________
   / // _ \ | | / __|
  / /|  __/ |_| \__ \
 /____\___|\__,_|___/
-Hello! I'm Zeus.
-What can I do for you?
+Zeus awaits your command. ⚡
 Type 'help' to see available commands.
 ____________________________________________________________
 ____________________________________________________________
-Got it. I've added this task:
+It is decreed. Your task has been added.
   [T][ ] read book
 Now you have 1 tasks in the list.
 ____________________________________________________________
 ____________________________________________________________
-Got it. I've added this task:
+It is decreed. Your task has been added.
   [D][ ] return book (by: Jun 6 2026)
 Now you have 2 tasks in the list.
 ____________________________________________________________
 ____________________________________________________________
-Got it. I've added this task:
+It is decreed. Your task has been added.
   [E][ ] project meeting (from: Aug 6 2026 to: Aug 7 2026)
 Now you have 3 tasks in the list.
 ____________________________________________________________
 ____________________________________________________________
-Nice! I've marked this task as done:
+A worthy task completed.
   [T][X] read book
 ____________________________________________________________
 ____________________________________________________________
@@ -611,7 +601,7 @@ Noted. I've removed this task:
 Now you have 2 tasks in the list.
 ____________________________________________________________
 ____________________________________________________________
-Bye. Hope to see you again soon!
+Farewell, mortal.
 ____________________________________________________________
 ```
 
@@ -650,8 +640,7 @@ ____________________________________________________________
   / // _ \ | | / __|
  / /|  __/ |_| \__ \
 /____\___|\__,_|___/
-Hello! I'm Zeus.
-What can I do for you?
+Zeus awaits your command. ⚡
 Type 'help' to see available commands.
 ____________________________________________________________
 ____________________________________________________________
@@ -661,7 +650,7 @@ Here are the tasks in your list:
 3.[E][X] project meeting (from: Aug 6 2026 to: Aug 7 2026)
 ____________________________________________________________
 ____________________________________________________________
-Bye. Hope to see you again soon!
+Farewell, mortal.
 ____________________________________________________________
 ```
 
@@ -693,15 +682,14 @@ ____________________________________________________________
   / // _ \ | | / __|
  / /|  __/ |_| \__ \
 /____\___|\__,_|___/
-Hello! I'm Zeus.
-What can I do for you?
+Zeus awaits your command. ⚡
 Type 'help' to see available commands.
 ____________________________________________________________
 ____________________________________________________________
 Here are the tasks in your list:
 ____________________________________________________________
 ____________________________________________________________
-Bye. Hope to see you again soon!
+Farewell, mortal.
 ____________________________________________________________
 ```
 
@@ -745,8 +733,7 @@ ____________________________________________________________
   / // _ \ | | / __|
  / /|  __/ |_| \__ \
 /____\___|\__,_|___/
-Hello! I'm Zeus.
-What can I do for you?
+Zeus awaits your command. ⚡
 Type 'help' to see available commands.
 ____________________________________________________________
 OOPS!!! Saved data line 3 was ignored: Unknown task type 'X'.
@@ -767,12 +754,12 @@ Here are the tasks in your list:
 2.[E][ ] valid event (from: Sep 7 2026 to: Sep 8 2026)
 ____________________________________________________________
 ____________________________________________________________
-Got it. I've added this task:
+It is decreed. Your task has been added.
   [T][ ] recovered task
 Now you have 3 tasks in the list.
 ____________________________________________________________
 ____________________________________________________________
-Bye. Hope to see you again soon!
+Farewell, mortal.
 ____________________________________________________________
 ```
 
@@ -812,8 +799,7 @@ ____________________________________________________________
   / // _ \ | | / __|
  / /|  __/ |_| \__ \
 /____\___|\__,_|___/
-Hello! I'm Zeus.
-What can I do for you?
+Zeus awaits your command. ⚡
 Type 'help' to see available commands.
 ____________________________________________________________
 ____________________________________________________________
@@ -822,12 +808,12 @@ Here are the tasks in your list:
 2.[T][X] use path C:\Temp
 ____________________________________________________________
 ____________________________________________________________
-Got it. I've added this task:
+It is decreed. Your task has been added.
   [T][ ] back up C:\Temp | archive
 Now you have 3 tasks in the list.
 ____________________________________________________________
 ____________________________________________________________
-Bye. Hope to see you again soon!
+Farewell, mortal.
 ____________________________________________________________
 ```
 
@@ -869,8 +855,7 @@ ____________________________________________________________
   / // _ \ | | / __|
  / /|  __/ |_| \__ \
 /____\___|\__,_|___/
-Hello! I'm Zeus.
-What can I do for you?
+Zeus awaits your command. ⚡
 Type 'help' to see available commands.
 ____________________________________________________________
 ____________________________________________________________
@@ -886,7 +871,7 @@ ____________________________________________________________
 Here are the matching tasks in your list:
 ____________________________________________________________
 ____________________________________________________________
-Bye. Hope to see you again soon!
+Farewell, mortal.
 ____________________________________________________________
 ```
 
@@ -926,8 +911,7 @@ ____________________________________________________________
   / // _ \ | | / __|
  / /|  __/ |_| \__ \
 /____\___|\__,_|___/
-Hello! I'm Zeus.
-What can I do for you?
+Zeus awaits your command. ⚡
 Type 'help' to see available commands.
 ____________________________________________________________
 ____________________________________________________________
@@ -949,10 +933,10 @@ ____________________________________________________________
 OOPS!!! The help command does not take any arguments. Type 'help' on its own.
 ____________________________________________________________
 ____________________________________________________________
-OOPS!!! I don't recognize that command. Type 'help' to see available commands.
+OOPS!!! Even Zeus cannot understand that command. Type 'help' to see available commands.
 ____________________________________________________________
 ____________________________________________________________
-Bye. Hope to see you again soon!
+Farewell, mortal.
 ____________________________________________________________
 ```
 

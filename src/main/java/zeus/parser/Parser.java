@@ -75,7 +75,7 @@ public final class Parser {
         }
 
         throw new ZeusException(
-                "I don't recognize that command. Type 'help' to see available commands."
+                "Even Zeus cannot understand that command. Type 'help' to see available commands."
         );
     }
 
