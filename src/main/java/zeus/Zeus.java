@@ -37,6 +37,9 @@ public class Zeus {
     /** Whether the last graphical-interface command requested an exit. */
     private boolean isExitRequested;
 
+    /** Whether the most recent command produced an error response. */
+    private boolean wasLastResponseError;
+
     /**
      * Creates Zeus using the specified task data file.
      *
@@ -48,6 +51,7 @@ public class Zeus {
         loadWarnings = new ArrayList<>();
         tasks = new TaskList(storage.load(loadWarnings));
         isExitRequested = false;
+        wasLastResponseError = false;
     }
 
     /** Runs the console command loop until the user exits or input ends. */
@@ -106,6 +110,15 @@ public class Zeus {
     }
 
     /**
+     * Reports whether the most recent command produced an error response.
+     *
+     * @return True when the most recent command could not be completed.
+     */
+    public boolean wasLastResponseError() {
+        return wasLastResponseError;
+    }
+
+    /**
      * Parses and executes one command, reporting recoverable errors through the supplied UI.
      *
      * @param fullCommand Complete command to execute.
@@ -116,8 +129,10 @@ public class Zeus {
         try {
             Command command = Parser.parse(fullCommand);
             command.execute(new CommandContext(tasks, commandUi, storage));
+            wasLastResponseError = false;
             return command.isExit();
         } catch (ZeusException exception) {
+            wasLastResponseError = true;
             commandUi.showError(exception.getMessage());
             return false;
         }
