@@ -29,8 +29,7 @@ public class ConsoleUi extends Ui {
         showLines(
                 SEPARATOR,
                 BANNER,
-                "Hello! I'm Zeus.",
-                "What can I do for you?",
+                "Zeus awaits your command. ⚡",
                 "Type 'help' to see available commands.",
                 SEPARATOR);
     }

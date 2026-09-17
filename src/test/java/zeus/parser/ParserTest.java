@@ -70,7 +70,7 @@ public class ParserTest {
     @Test
     public void parse_unknownOrPartialCommand_exceptionThrown() {
         String expectedMessage =
-                "I don't recognize that command. Type 'help' to see available commands.";
+                "Even Zeus cannot understand that command. Type 'help' to see available commands.";
         assertParseError("", expectedMessage);
         assertParseError("blah", expectedMessage);
         assertParseError("marking 1", expectedMessage);

@@ -21,30 +21,30 @@ Prerequisites: JDK 25, update Intellij to the most recent version.
      / // _ \ | | / __|
     / /|  __/ |_| \__ \
    /____\___|\__,_|___/
-   Hello! I'm Zeus.
-   What can I do for you?
+   Zeus awaits your command. ⚡
+   Type 'help' to see available commands.
    ____________________________________________________________
    todo borrow book
    ____________________________________________________________
-   Got it. I've added this task:
+   It is decreed. Your task has been added.
      [T][ ] borrow book
    Now you have 1 tasks in the list.
    ____________________________________________________________
    deadline return book /by 2026-09-06
    ____________________________________________________________
-   Got it. I've added this task:
+   It is decreed. Your task has been added.
      [D][ ] return book (by: Sep 6 2026)
    Now you have 2 tasks in the list.
    ____________________________________________________________
    event project meeting /from 2026-09-07 /to 2026-09-08
    ____________________________________________________________
-   Got it. I've added this task:
+   It is decreed. Your task has been added.
      [E][ ] project meeting (from: Sep 7 2026 to: Sep 8 2026)
    Now you have 3 tasks in the list.
    ____________________________________________________________
    mark 2
    ____________________________________________________________
-   Nice! I've marked this task as done:
+   A worthy task completed.
      [D][X] return book (by: Sep 6 2026)
    ____________________________________________________________
    unmark 2
@@ -71,11 +71,11 @@ Prerequisites: JDK 25, update Intellij to the most recent version.
    ____________________________________________________________
    blah
    ____________________________________________________________
-   OOPS!!! I don't recognize that command. Try todo, deadline, event, list, mark, unmark, delete, or bye.
+   OOPS!!! Even Zeus cannot understand that command. Type 'help' to see available commands.
    ____________________________________________________________
    bye
    ____________________________________________________________
-   Bye. Hope to see you again soon!
+   Farewell, mortal.
    ____________________________________________________________
    ```
 

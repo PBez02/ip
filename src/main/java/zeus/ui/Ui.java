@@ -70,7 +70,7 @@ public class Ui {
      * @param task task whose status changed
      */
     public void showTaskMarked(Task task) {
-        showLines("Nice! I've marked this task as done:", "  " + task);
+        showLines("A worthy task completed.", "  " + task);
     }
 
     /**
@@ -100,7 +100,7 @@ public class Ui {
      */
     public void showTaskAdded(Task task, int taskCount) {
         showLines(
-                "Got it. I've added this task:",
+                "It is decreed. Your task has been added.",
                 "  " + task,
                 "Now you have " + taskCount + " tasks in the list.");
     }
@@ -115,7 +115,7 @@ public class Ui {
 
     /** Displays Zeus's farewell. */
     public void showGoodbye() {
-        showLines("Bye. Hope to see you again soon!");
+        showLines("Farewell, mortal.");
     }
 
     /**

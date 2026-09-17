@@ -24,7 +24,7 @@ public class ZeusTest {
         String addResponse = zeus.getResponse("todo read book");
         String listResponse = zeus.getResponse("list");
 
-        assertEquals("Got it. I've added this task:\n"
+        assertEquals("It is decreed. Your task has been added.\n"
                 + "  [T][ ] read book\n"
                 + "Now you have 1 tasks in the list.", addResponse);
         assertEquals("Here are the tasks in your list:\n"
@@ -37,12 +37,13 @@ public class ZeusTest {
     public void getResponse_invalidAndExitCommands_returnsRepliesAndTracksExit() {
         Zeus zeus = new Zeus(temporaryDirectory.resolve("zeus.txt").toString());
 
-        assertEquals("OOPS!!! I don't recognize that command. Type 'help' to see available commands.",
+        assertEquals("OOPS!!! Even Zeus cannot understand that command. "
+                        + "Type 'help' to see available commands.",
                 zeus.getResponse("unknown"));
         assertFalse(zeus.isExitRequested());
         assertTrue(zeus.wasLastResponseError());
 
-        assertEquals("Bye. Hope to see you again soon!", zeus.getResponse("bye"));
+        assertEquals("Farewell, mortal.", zeus.getResponse("bye"));
         assertTrue(zeus.isExitRequested());
         assertFalse(zeus.wasLastResponseError());
     }
