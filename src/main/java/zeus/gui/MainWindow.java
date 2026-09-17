@@ -58,9 +58,12 @@ public class MainWindow {
         }
 
         String response = zeus.getResponse(input);
+        DialogBox responseDialog = zeus.wasLastResponseError()
+                ? DialogBox.createErrorDialog(response)
+                : DialogBox.createZeusDialog(response);
         dialogContainer.getChildren().addAll(
                 DialogBox.createUserDialog(input),
-                DialogBox.createZeusDialog(response));
+                responseDialog);
         userInput.clear();
 
         if (zeus.isExitRequested()) {

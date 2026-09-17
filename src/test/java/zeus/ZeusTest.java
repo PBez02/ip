@@ -30,6 +30,7 @@ public class ZeusTest {
         assertEquals("Here are the tasks in your list:\n"
                 + "1.[T][ ] read book", listResponse);
         assertFalse(zeus.isExitRequested());
+        assertFalse(zeus.wasLastResponseError());
     }
 
     @Test
@@ -39,9 +40,11 @@ public class ZeusTest {
         assertEquals("OOPS!!! I don't recognize that command. Type 'help' to see available commands.",
                 zeus.getResponse("unknown"));
         assertFalse(zeus.isExitRequested());
+        assertTrue(zeus.wasLastResponseError());
 
         assertEquals("Bye. Hope to see you again soon!", zeus.getResponse("bye"));
         assertTrue(zeus.isExitRequested());
+        assertFalse(zeus.wasLastResponseError());
     }
 
     @Test

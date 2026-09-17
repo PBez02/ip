@@ -66,4 +66,18 @@ public class DialogBox extends HBox {
         dialogBox.avatar.setText("⚡");
         return dialogBox;
     }
+
+    /**
+     * Creates a visually highlighted dialog for an error response from Zeus.
+     *
+     * @param text Error response to display.
+     * @return New error dialog.
+     */
+    public static DialogBox createErrorDialog(String text) {
+        DialogBox dialogBox = createZeusDialog(text);
+        dialogBox.dialog.getStyleClass().add("error-dialog");
+        dialogBox.avatar.getStyleClass().add("error-avatar");
+        dialogBox.avatar.setText("!");
+        return dialogBox;
+    }
 }
