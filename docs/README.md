@@ -1,28 +1,71 @@
 # Zeus User Guide
 
-Zeus is a task-tracking chatbot. Enter commands in the console or graphical interface to manage
-your task list.
+Zeus is a task-tracking chatbot that helps you manage your tasks quickly through simple commands.
 
-## Viewing command help
+![Zeus GUI](Ui.png)
 
-Enter `help` by itself to display the available commands:
+## Getting started
 
-```text
-Here are the commands you can use:
-  todo DESCRIPTION - Add a task without a date.
-  deadline DESCRIPTION /by yyyy-MM-dd - Add a task with a due date.
-  event DESCRIPTION /from yyyy-MM-dd /to yyyy-MM-dd - Add a task with start and end dates.
-  list - Show all tasks.
-  find KEYWORD - Find tasks whose descriptions contain the keyword.
-  mark NUMBER - Mark the numbered task as done.
-  unmark NUMBER - Mark the numbered task as not done.
-  delete NUMBER - Delete the numbered task.
-  help - Show this help page.
-  bye - Exit Zeus.
+Type a command into the input box and press Enter.
 
-Dates must use yyyy-MM-dd, for example 2026-09-06.
-```
+For example:
 
-The command is case-sensitive and does not accept arguments. For example, `HELP` is unknown, while
-`help todo` produces an error explaining that `help` must be entered on its own. Viewing help does
-not change or save the task list.
+`todo buy groceries`
+
+To view all available commands, enter:
+
+`help`
+
+## Commands
+
+`todo DESCRIPTION`  
+Adds a task without a date.
+
+Example: `todo buy groceries`
+
+`deadline DESCRIPTION /by yyyy-MM-dd`  
+Adds a task with a deadline.
+
+Example: `deadline submit report /by 2026-09-20`
+
+`event DESCRIPTION /from yyyy-MM-dd /to yyyy-MM-dd`  
+Adds an event with a start and end date.
+
+Example: `event holiday /from 2026-12-01 /to 2026-12-05`
+
+`list`  
+Shows all tasks.
+
+`find KEYWORD`  
+Finds tasks containing the keyword.
+
+Example: `find report`
+
+`mark NUMBER`  
+Marks a task as completed.
+
+Example: `mark 1`
+
+`unmark NUMBER`  
+Marks a task as not completed.
+
+Example: `unmark 1`
+
+`delete NUMBER`  
+Deletes a task.
+
+Example: `delete 1`
+
+`help`  
+Shows the list of available commands.
+
+`bye`  
+Exits Zeus.
+
+## Date format
+
+Dates should use the format:
+
+`yyyy-MM-dd`
+
+For example: `2026-09-18`
